@@ -26,36 +26,53 @@ namespace CasusVictuz.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.Thread)
-                .WithMany(t => t.Comments)
-                .HasForeignKey(c => c.ThreadId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+            
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)
                 .WithMany(c => c.Replies)
                 .HasForeignKey(c => c.ParentCommentId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); 
 
+            
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Thread)
+                .WithMany(t => t.Comments)
+                .HasForeignKey(c => c.ThreadId)
+                .OnDelete(DeleteBehavior.Restrict);  
+
+            
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Category)
                 .WithMany()
-                .HasForeignKey(e => e.CategoryId);
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.NoAction);
 
+            
             modelBuilder.Entity<Registration>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Registrations)
-                .HasForeignKey(r => r.UserId);
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Registration>()
                 .HasOne(r => r.Event)
                 .WithMany(e => e.Registrations)
-                .HasForeignKey(r => r.EventId);
+                .HasForeignKey(r => r.EventId)
+                .OnDelete(DeleteBehavior.NoAction);
 
+            
             modelBuilder.Entity<Tag>()
                 .HasKey(t => new { t.Id, t.EventId });
         }
+
+
 
 
     }
