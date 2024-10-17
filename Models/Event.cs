@@ -8,7 +8,7 @@ namespace Casusvictuz
     public class Event
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         [Required]
         public required string Name { get; set; } 
         public string? Description { get; set; } 
