@@ -4,7 +4,7 @@ namespace CasusVictuz.Models
 {
     public class Tag
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public required string Name { get; set; }
         [Required]
