@@ -7,6 +7,7 @@ namespace CasusVictuz.Models
         int Id { get; set; }
         [Required]
         public required string Name { get; set; }
+        [Required]
         public int EventId { get; set; }
     }
 }
