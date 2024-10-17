@@ -1,10 +1,11 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Casusvictuz
 {
     public class Category
     {
         public int Id { get; set; }
-        public string? Title { get; set; } 
+        [Required]
+        public required string Title { get; set; } 
     }
 }
