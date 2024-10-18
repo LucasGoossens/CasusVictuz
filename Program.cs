@@ -1,3 +1,5 @@
+using CasusVictuz.Data;
+
 namespace CasusVictuz
 {
     public class Program
@@ -8,6 +10,7 @@ namespace CasusVictuz
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<VictuzDb>();
 
             var app = builder.Build();
 
