@@ -17,7 +17,7 @@ namespace Casusvictuz
         public bool IsAccepted { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        public virtual required Category Category { get; set; } 
+        public virtual required Category? Category { get; set; } 
         public virtual ICollection<Registration>? Registrations { get; set; }
         public virtual ICollection<Tag>? Tags { get; set; }
     }
