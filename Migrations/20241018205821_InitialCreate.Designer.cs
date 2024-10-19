@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasusVictuz.Migrations
 {
     [DbContext(typeof(VictuzDb))]
-    [Migration("20241018065413_Tags-Pk")]
-    partial class TagsPk
+    [Migration("20241018205821_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,10 @@ namespace CasusVictuz.Migrations
             modelBuilder.Entity("CasusVictuz.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -37,7 +40,7 @@ namespace CasusVictuz.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id", "EventId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
