@@ -25,7 +25,10 @@ namespace CasusVictuz.Migrations
             modelBuilder.Entity("CasusVictuz.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -34,7 +37,7 @@ namespace CasusVictuz.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id", "EventId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EventId");
 

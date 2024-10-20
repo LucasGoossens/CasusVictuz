@@ -67,9 +67,12 @@ namespace CasusVictuz.Data
                 .HasForeignKey(r => r.EventId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            
+
             modelBuilder.Entity<Tag>()
-                .HasKey(t => new { t.Id, t.EventId });
+    .           HasOne<Event>()
+                .WithMany(e => e.Tags)
+                .HasForeignKey(t => t.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
 
