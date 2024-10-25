@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CasusVictuz.Data;
 using Casusvictuz;
+using Microsoft.Extensions.Hosting;
 
 namespace CasusVictuz.Controllers
 {
@@ -19,12 +20,42 @@ namespace CasusVictuz.Controllers
             _context = context;
         }
 
-        // GET: Posts
+        //// GET: Posts
+        //public async Task<IActionResult> Index()
+        //{
+        //    var victuzDb = _context.Posts.Include(p => p.Category).Include(p => p.User);
+        //    return View(await victuzDb.ToListAsync());
+        //}
+
         public async Task<IActionResult> Index()
         {
-            var victuzDb = _context.Posts.Include(p => p.Category).Include(p => p.User);
+            var victuzDb = _context.Threads
+                .Include(p => p.Category)
+                .Include(p => p.User)
+                .Include(p => p.Comments);
+
             return View(await victuzDb.ToListAsync());
         }
+
+        //// GET: Posts/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var post = await _context.Posts
+        //        .Include(p => p.Category)
+        //        .Include(p => p.User)                
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(post);
+        //}
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -34,9 +65,10 @@ namespace CasusVictuz.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts
+            var post = await _context.Threads
                 .Include(p => p.Category)
                 .Include(p => p.User)
+                .Include(p => p.Comments)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -45,6 +77,7 @@ namespace CasusVictuz.Controllers
 
             return View(post);
         }
+
 
         // GET: Posts/Create
         public IActionResult Create()
@@ -71,6 +104,62 @@ namespace CasusVictuz.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", post.UserId);
             return View(post);
         }
+
+        public IActionResult CreateThread()
+        {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateThread([Bind("Id,Content,Date,UserId,CategoryId,Title")] Casusvictuz.Thread thread)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(thread);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", thread.CategoryId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", thread.UserId);
+            return View(thread);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment(int threadId, string content) // ,int userId)
+        {
+            // testuser voor nu
+            var testUser = new User
+            {
+                Name = "test",
+                Password = "test",
+                IsAdmin = false
+            };
+
+            Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
+
+            var comment = new Comment
+            {
+                Content = content,
+                Date = DateTime.Now,
+                ThreadId = threadId,
+                UserId = testUser.Id,
+                User = testUser,
+                Thread = threadForComment,
+                Category = threadForComment.Category
+            };
+
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction("Details", new { id = threadId });
+        }
+
+
+
+
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)

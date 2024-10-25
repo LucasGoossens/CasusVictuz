@@ -1,4 +1,4 @@
-﻿@model Casusvictuz.Post
+﻿@model Casusvictuz.Thread
 
 @{
     ViewData["Title"] = "Details";
@@ -33,9 +33,55 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Category.Title)
-        </dd>
-    </dl>
+        </dd>       
+      </dl>
 </div>
+
+<div>
+<h3>Create Comment</h3>
+
+    <form asp-action="CreateComment">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Content of the comment -->
+        <div class="form-group">
+            <label asp-for="Content" class="control-label"></label>
+            <input asp-for="Content" class="form-control" />
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        
+        <input type="hidden" name="ThreadId" value="@Model.Id" />
+
+        @* dit moet dat CurrentUserId van ingelogde user worden uiteindelijk *@
+        @* <input type="hidden" name="UserId" value="@ViewBag.CurrentUserId" /> *@       
+
+        <div class="form-group">
+            <input type="submit" value="Create Comment" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+</div>
+
+<h3>Comments</h3>
+@if (Model.Comments != null && Model.Comments.Any())
+{
+    <ul>
+        @foreach (var comment in Model.Comments)
+        {
+            <li>
+                <strong>[ USER PLACEHOLDER ]</strong> @comment.Content
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No comments available.</p>
+}
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
