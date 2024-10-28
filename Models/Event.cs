@@ -12,8 +12,9 @@ namespace Casusvictuz
         [Required]
         public required string Name { get; set; } 
         public string? Description { get; set; } 
-        public int? Spots { get; set; } 
-        public string? Location { get; set; } 
+        public int? Spots { get; set; }
+        [Required]
+        public string Location { get; set; } = null!;
         public bool IsAccepted { get; set; }
         [Required]
         public int CategoryId { get; set; }
