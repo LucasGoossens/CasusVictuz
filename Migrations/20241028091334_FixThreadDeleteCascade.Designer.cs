@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasusVictuz.Migrations
 {
     [DbContext(typeof(VictuzDb))]
-    [Migration("20241018205821_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241028091334_FixThreadDeleteCascade")]
+    partial class FixThreadDeleteCascade
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -153,7 +153,7 @@ namespace CasusVictuz.Controllers
 
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction("Details", new { id = threadId });
         }
 
@@ -237,17 +237,38 @@ namespace CasusVictuz.Controllers
         }
 
         // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")]
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var post = await _context.Posts.FindAsync(id);
+        //    if (post != null)
+        //    {
+        //        _context.Posts.Remove(post);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
+        [HttpPost, ActionName("DeleteThread")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteThread(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-            if (post != null)
+            var thread = await _context.Threads
+                .Include(t => t.Comments)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (thread == null)
             {
-                _context.Posts.Remove(post);
+                return NotFound();
             }
 
+            _context.Comments.RemoveRange(thread.Comments);
+            _context.Threads.Remove(thread);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
