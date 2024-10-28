@@ -169,5 +169,25 @@ namespace CasusVictuz.Controllers
         {
             return _context.Events.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> DetailsUser(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = await _context.Events
+                .Include(e => e.Category)
+                .Include(e => e.Registrations)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            return View(@event);
+        }
+
     }
 }

@@ -38,7 +38,7 @@
                     @(item.Date.HasValue ? item.Date.Value.ToString("HH:mm") : "N/A")
                 </td>
             <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Meer info</a>
+                    <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Meer info</a>
             </td>
         </tr>
 }

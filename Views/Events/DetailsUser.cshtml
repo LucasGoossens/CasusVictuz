@@ -1,0 +1,64 @@
+﻿
+@model Casusvictuz.Event
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Naam
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Datum
+        </dt>
+        <dd class="col-sm-10">
+            Tijd
+        </dd>
+        <dt class="col-sm-2">
+            Beschrijving
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Aantal plekken voor event
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Spots)
+        </dd>
+        <dt class="col-sm-2">
+            Aantal beschikbare plekken
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var beschikbarePlekken = Model.Spots - Model.Registrations.Count(); // Bereken beschikbare plekken
+            }
+            @beschikbarePlekken
+        </dd>
+        <dt class="col-sm-2">
+            Locatie
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt class="col-sm-2">
+            Catagory
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Title)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="IndexUser" class="btn btn-primary">Inschrijven</a>
+    <a asp-action="IndexUser" class="btn btn-warning">Terug</a>
+</div>
