@@ -38,9 +38,9 @@ namespace CasusVictuz.Data
                 .HasOne(c => c.Thread)
                 .WithMany(t => t.Comments)
                 .HasForeignKey(c => c.ThreadId)
-                .OnDelete(DeleteBehavior.Restrict);  
+                .OnDelete(DeleteBehavior.Restrict);
 
-            
+            // dit verwijdert niet alle users?
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Posts)
