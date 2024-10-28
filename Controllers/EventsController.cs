@@ -189,5 +189,6 @@ namespace CasusVictuz.Controllers
             return View(@event);
         }
 
+        
     }
 }
