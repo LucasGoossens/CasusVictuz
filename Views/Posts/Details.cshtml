@@ -64,36 +64,15 @@
 
 
 </div>
- 
-@functions{  
-    // moet zo nu geen zin in
-    //https://stackoverflow.com/questions/6422895/asp-net-mvc-3-razor-recursive-function
 
-    // public static string ShowCommentTree(List<Post> comments)
-    // {
 
-    // }
-
-} 
 <h3>Comments</h3>
 @if (Model.Comments != null && Model.Comments.Any())
 {
     <ul>
-        @foreach (var comment in Model.Comments)
+        @foreach (var comment in Model.Comments.Where(c => c.ParentCommentId == null))
         {
-            <li>
-                <strong>[ USER PLACEHOLDER ]</strong> @comment.Content
-            </li>
-
-            if (comment.Replies != null)
-            {
-                foreach (var reply in comment.Replies)
-                {
-                    <li>
-                        <strong>[ REPLY PLACEHOLDER ]</strong> @comment.Content
-                    </li>
-                }
-            }
+            @Html.Partial("_CommentTree", comment)
         }
     </ul>
 }
