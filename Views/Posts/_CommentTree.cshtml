@@ -1,0 +1,33 @@
+﻿
+@model Casusvictuz.Comment
+
+<li>
+    <strong>[USER REPLY PLACEHOLDER]</strong> - @Model.Content
+
+    <form asp-action="CreateReply" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Reply Content Input -->
+        <div class="form-group">
+            <label asp-for="Content" class="control-label">Reply</label>
+            <input type="text" name="Content" class="form-control" />
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <!-- Hidden fields for ThreadId and ParentCommentId -->
+        <input type="hidden" name="ThreadId" value="@Model.ThreadId" />
+        <input type="hidden" name="ParentCommentId" value="@Model.Id" />
+        <input type="submit" value="Reply" class="btn btn-primary" />
+    </form>
+
+    <!-- Render Replies -->
+    @if (Model.Replies != null && Model.Replies.Any())
+    {
+        <ul>
+            @foreach (var reply in Model.Replies)
+            {
+                @Html.Partial("_CommentTree", reply) <!-- Recursive call to partial view for each reply -->
+            }
+        </ul>
+    }
+</li>

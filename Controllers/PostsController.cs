@@ -157,6 +157,41 @@ namespace CasusVictuz.Controllers
             return RedirectToAction("Details", new { id = threadId });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateReply(int threadId, int parentCommentId, string content) // ,int userId)
+        {
+            // testuser voor nu
+            var testUser = new User
+            {
+                Name = "test",
+                Password = "test",
+                IsAdmin = false
+            };
+
+            Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
+            Comment parentComment = _context.Comments.FirstOrDefault(c => c.Id == parentCommentId);
+
+            var comment = new Comment
+            {
+                Content = content,
+                Date = DateTime.Now,
+                ThreadId = threadId,
+                UserId = testUser.Id,
+                User = testUser,
+                Thread = threadForComment,
+                Category = threadForComment.Category,
+                ParentCommentId = parentCommentId
+
+            };
+
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = threadId });
+        }
+
+
 
 
 
