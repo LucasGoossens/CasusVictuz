@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasusVictuz.Migrations
 {
     [DbContext(typeof(VictuzDb))]
-    [Migration("20241028091334_FixThreadDeleteCascade")]
-    partial class FixThreadDeleteCascade
+    [Migration("20241028110341_RequiredLocation")]
+    partial class RequiredLocation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,7 @@ namespace CasusVictuz.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
