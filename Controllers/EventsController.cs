@@ -20,7 +20,7 @@ namespace CasusVictuz.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexUser()
         {
             var victuzDb = _context.Events.Include(e => e.Category)
             .Where(e => e.IsAccepted == true)
@@ -125,7 +125,7 @@ namespace CasusVictuz.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAdmin));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
@@ -162,7 +162,7 @@ namespace CasusVictuz.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexAdmin));
         }
 
         private bool EventExists(int id)
