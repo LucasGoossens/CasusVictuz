@@ -22,6 +22,15 @@ namespace CasusVictuz.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => e.IsAccepted == true)
+            .Where(e => e.Date >= DateTime.Now)
+            .OrderBy(e => e.Date);
+            return View(await victuzDb.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexAdmin()
+        {
             var victuzDb = _context.Events.Include(e => e.Category);
             return View(await victuzDb.ToListAsync());
         }
