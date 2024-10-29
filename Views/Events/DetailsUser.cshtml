@@ -1,4 +1,5 @@
-﻿
+﻿@using CasusVictuz.Models
+@using System.Security.Claims
 @model Casusvictuz.Event
 
 @{
@@ -59,6 +60,32 @@
     </dl>
 </div>
 <div>
-    <a asp-action="IndexUser" class="btn btn-primary">Inschrijven</a>
+    @{
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId == null)
+        {
+            <p>U dient zich in te loggen voor u zich kan inschrijven</p>
+        }
+        else
+        {
+            int loggedInUserId = int.Parse(currentUserId);
+
+            bool userIsAlreadyRegistered = Model.Registrations.Any(r => r.UserId == loggedInUserId);
+            if (userIsAlreadyRegistered)
+            {
+                <p>U bent al ingeschreven voor dit evenement</p>
+            }
+
+            else if (Model.Spots == Model.Registrations.Count())
+            {
+                <p>Sorry dit evenement is volgeboekt</p>
+            }
+
+            else
+            {
+                <a asp-action="IndexUser" class="btn btn-primary">Inschrijven</a>
+            }
+        }
+    }
     <a asp-action="IndexUser" class="btn btn-warning">Terug</a>
 </div>
