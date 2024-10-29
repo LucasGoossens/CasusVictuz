@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using CasusVictuz.Data;
 using Casusvictuz;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
+using System.Threading;
 
 namespace CasusVictuz.Controllers
 {
@@ -92,16 +94,18 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,Date,UserId,CategoryId")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Content,CategoryId")] Post post)
         {
+            // dit is Create voor abstract Post, wordt vgm niet gebruikt
+            
             if (ModelState.IsValid)
-            {
+            {               
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", post.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", post.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", post.UserId); 
             return View(post);
         }
 
@@ -113,10 +117,15 @@ namespace CasusVictuz.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateThread([Bind("Id,Content,Date,UserId,CategoryId,Title")] Casusvictuz.Thread thread)
+        public async Task<IActionResult> CreateThread([Bind("Id,Content,CategoryId,Title")] Casusvictuz.Thread thread)
         {
+            // hier misschien ook eerst controleren of er een gebruiker is ingelogd
+            // of "create thread" element niet zichtbaar als geen gebruiker is ingelogd
+
             if (ModelState.IsValid)
             {
+                thread.Date = DateTime.Now;
+                thread.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 _context.Add(thread);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -129,14 +138,7 @@ namespace CasusVictuz.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateComment(int threadId, string content) // ,int userId)
-        {
-            // testuser voor nu
-            var testUser = new User
-            {
-                Name = "test",
-                Password = "test",
-                IsAdmin = false
-            };
+        {            
 
             Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
 
@@ -145,8 +147,8 @@ namespace CasusVictuz.Controllers
                 Content = content,
                 Date = DateTime.Now,
                 ThreadId = threadId,
-                UserId = testUser.Id,
-                User = testUser,
+                UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                User = null, // kijken of dit gaat
                 Thread = threadForComment,
                 Category = threadForComment.Category
             };
@@ -161,14 +163,7 @@ namespace CasusVictuz.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReply(int threadId, int parentCommentId, string content) // ,int userId)
         {
-            // testuser voor nu
-            var testUser = new User
-            {
-                Name = "test",
-                Password = "test",
-                IsAdmin = false
-            };
-
+            
             Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
             Comment parentComment = _context.Comments.FirstOrDefault(c => c.Id == parentCommentId);
 
@@ -177,8 +172,8 @@ namespace CasusVictuz.Controllers
                 Content = content,
                 Date = DateTime.Now,
                 ThreadId = threadId,
-                UserId = testUser.Id,
-                User = testUser,
+                UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                User = null, // dit geeft misschien gezeik
                 Thread = threadForComment,
                 Category = threadForComment.Category,
                 ParentCommentId = parentCommentId
