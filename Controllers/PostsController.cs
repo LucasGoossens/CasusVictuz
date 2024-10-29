@@ -71,6 +71,7 @@ namespace CasusVictuz.Controllers
                 .Include(p => p.Category)
                 .Include(p => p.User)
                 .Include(p => p.Comments)
+                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -142,13 +143,16 @@ namespace CasusVictuz.Controllers
 
             Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
 
+            int loggedInId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            User loggedInUser = _context.Users.FirstOrDefault(u => u.Id == loggedInId);
+
             var comment = new Comment
             {
                 Content = content,
                 Date = DateTime.Now,
                 ThreadId = threadId,
-                UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                User = null, // kijken of dit gaat
+                UserId = loggedInId,
+                User = loggedInUser, // kijken of dit gaat
                 Thread = threadForComment,
                 Category = threadForComment.Category
             };
@@ -166,14 +170,16 @@ namespace CasusVictuz.Controllers
             
             Casusvictuz.Thread threadForComment = (Casusvictuz.Thread)_context.Threads.Include(t => t.Category).FirstOrDefault(t => t.Id == threadId);
             Comment parentComment = _context.Comments.FirstOrDefault(c => c.Id == parentCommentId);
+            int loggedInId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            User loggedInUser = _context.Users.FirstOrDefault(u => u.Id == loggedInId);
 
             var comment = new Comment
             {
                 Content = content,
                 Date = DateTime.Now,
                 ThreadId = threadId,
-                UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-                User = null, // dit geeft misschien gezeik
+                UserId = loggedInId,
+                User = loggedInUser,
                 Thread = threadForComment,
                 Category = threadForComment.Category,
                 ParentCommentId = parentCommentId
