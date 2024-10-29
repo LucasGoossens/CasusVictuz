@@ -43,8 +43,7 @@
 
     <form asp-action="CreateComment">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <!-- Content of the comment -->
+        
         <div class="form-group">
             <label asp-for="Content" class="control-label"></label>
             <input asp-for="Content" class="form-control" />
@@ -53,8 +52,8 @@
 
 
         <input type="hidden" name="ThreadId" value="@Model.Id" />
-
-        @* dit moet dat CurrentUserId van ingelogde user worden uiteindelijk *@
+        
+        @* dit gebeurt in controller vgm *@
         @* <input type="hidden" name="UserId" value="@ViewBag.CurrentUserId" /> *@
 
         <div class="form-group">

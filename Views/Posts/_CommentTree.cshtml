@@ -2,7 +2,7 @@
 @model Casusvictuz.Comment
 
 <li>
-    <strong>[USER REPLY PLACEHOLDER]</strong> - @Model.Content
+    <strong>@Model.User.Name</strong> - @Model.Content
 
     <form asp-action="CreateReply" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
