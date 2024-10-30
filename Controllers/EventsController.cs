@@ -230,7 +230,6 @@ namespace CasusVictuz.Controllers
             _context.Registrations.Add(newRegistration);
             _context.SaveChanges();
 
-            TempData["Message"] = "Je bent succesvol ingeschreven!";
             return RedirectToAction("DetailsUser", new { id = eventId });
         }
 
