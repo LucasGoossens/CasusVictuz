@@ -55,5 +55,13 @@
 </div>
 <div>
     <a asp-action="Index" class="btn btn-primary">Terug</a>
-    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">Uitschrijven</a>
+    @{if (Model.IsOrganised)
+        {
+            <p>Als organisator kunt u zich niet uitschrijven voor dit evenement</p>
+        }
+        else
+        {
+            <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">Uitschrijven</a>
+        }
+    }
 </div>
