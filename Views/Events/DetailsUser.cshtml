@@ -62,6 +62,24 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Category.Title)
         </dd>
+        <dt class="col-sm-2">
+            Organisator
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var firstOrganizer = Model.Registrations
+                .FirstOrDefault(r => r.IsOrganised)?.User?.Name;
+
+                if (!string.IsNullOrEmpty(firstOrganizer))
+                {
+                    @firstOrganizer
+                }
+                else
+                {
+                    <span>onbekend</span>
+                }
+            }
+        </dd>
     </dl>
 </div>
 <div>

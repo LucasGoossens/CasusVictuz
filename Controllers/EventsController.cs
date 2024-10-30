@@ -66,6 +66,7 @@ namespace CasusVictuz.Controllers
             var @event = await _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Registrations)
+                    .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
