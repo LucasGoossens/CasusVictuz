@@ -1,22 +1,52 @@
-html {
-  font-size: 14px;
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #265C6C; /* Dark teal color only for the header */
+  padding: 15px 20px;
+  color: white;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* Logo */
+.logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.logo:hover {
+  color: #FFDD57; /* Accent color for hover effect */
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* Center Links */
+.navbar-center a {
+  margin: 0 15px;
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
+.navbar-center a:hover {
+  color: #FFDD57; /* Accent color for hover */
+}
+
+/* Account Icon */
+.account-icon img {
+  width: 30px; /* Adjust size of the account icon */
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.account-icon:hover img {
+  transform: scale(1.1); /* Zoom effect on hover */
+}
+
+/* Optional: Body Background Color Reset */
 body {
-  margin-bottom: 60px;
+  background-color: white; /* Keep the rest of the page background white or your preferred color */
 }
