@@ -20,10 +20,13 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-light" asp-area="" asp-controller="Events" asp-action="IndexUser">Evenementen</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Forum" asp-action="Index">Forum</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="Posts" asp-action="Index">Forum</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">Over Ons</a>
@@ -39,8 +42,8 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
                         <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Info">Informatie</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Registrations" asp-action="Index">Mijn inschrijvingen</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Login">Inlog</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Logout">Uitlog</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Login">Log In</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a></li>
                         <!-- Admin functions (visible only if user is admin) -->
                         @if (User.HasClaim("IsAdmin", "True"))
                         {
