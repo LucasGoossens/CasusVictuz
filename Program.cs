@@ -1,4 +1,5 @@
 using CasusVictuz.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CasusVictuz
 {
@@ -11,6 +12,12 @@ namespace CasusVictuz
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<VictuzDb>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Customer/Login";
+                });
 
             var app = builder.Build();
 
@@ -26,7 +33,7 @@ namespace CasusVictuz
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

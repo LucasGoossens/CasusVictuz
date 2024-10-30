@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CasusVictuz.Data;
 using Casusvictuz;
+using System.Security.Claims;
 
 namespace CasusVictuz.Controllers
 {
@@ -191,6 +192,50 @@ namespace CasusVictuz.Controllers
         }
 
         
+
+
+        public IActionResult Register(int eventId)
+        {
+            // check of de gebruiker is ingelogd
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return BadRequest("Je moet inloggen voor je voor een evenement kan inschrijven");
+            }
+
+            int customerId = int.Parse(userId);
+
+            // Controleer of de gebruiker al is geregistreerd voor dit evenement
+            var alreadyRegistered = _context.Registrations.Any(r => r.UserId == customerId && r.EventId == eventId);
+            if (alreadyRegistered)
+            {
+                return BadRequest("Je bent al gerigistreerd voor dit evenement");
+            }
+
+            // Controleer of het evenement volgeboekt is
+            var eventItem = _context.Events.Include(e => e.Registrations).FirstOrDefault(e => e.Id == eventId);
+            if (eventItem == null || eventItem.Registrations.Count >= eventItem.Spots)
+            {
+                return BadRequest("Dit evenement is al vol");
+            }
+
+            // Maak een nieuwe registratie aan
+            var newRegistration = new Registration
+            {
+                UserId = customerId,
+                User = null, // gebruiker word al opgehaald in de controller en opgeslagen met UserId
+                EventId = eventId,
+                Event = null, // event word al opgehaald in de controller en opgeslagen met EventId
+                IsOrganised = false // inschrijving is geen organisator
+            };
+
+            _context.Registrations.Add(newRegistration);
+            _context.SaveChanges();
+
+            TempData["Message"] = "Je bent succesvol ingeschreven!";
+            return RedirectToAction("DetailsUser", new { id = eventId });
+        }
 
     }
 }

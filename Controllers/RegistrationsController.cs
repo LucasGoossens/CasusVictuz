@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CasusVictuz.Data;
 using Casusvictuz;
+using System.Security.Claims;
 
 namespace CasusVictuz.Controllers
 {
@@ -22,7 +23,16 @@ namespace CasusVictuz.Controllers
         // GET: Registrations
         public async Task<IActionResult> Index()
         {
-            var victuzDb = _context.Registrations.Include(r => r.Event).Include(r => r.User);
+            int currentUserId = 0;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId != null)
+            {
+                currentUserId = int.Parse(userId);
+            }
+            var victuzDb = _context.Registrations.Include(r => r.Event).Include(r => r.User)
+                .Where(r => r.UserId == currentUserId)
+                .Where(r => r.Event.Date >= DateTime.Now)
+                .OrderBy(r => r.Event.Date);
             return View(await victuzDb.ToListAsync());
         }
 
@@ -36,6 +46,7 @@ namespace CasusVictuz.Controllers
 
             var registration = await _context.Registrations
                 .Include(r => r.Event)
+                    .ThenInclude(e => e.Category)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (registration == null)
@@ -46,86 +57,9 @@ namespace CasusVictuz.Controllers
             return View(registration);
         }
 
-        // GET: Registrations/Create
-        public IActionResult Create()
-        {
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name");
-            return View();
-        }
+     
 
-        // POST: Registrations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,EventId,IsOrganised")] Registration registration)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(registration);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Name", registration.EventId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", registration.UserId);
-            return View(registration);
-        }
-
-        // GET: Registrations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var registration = await _context.Registrations.FindAsync(id);
-            if (registration == null)
-            {
-                return NotFound();
-            }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Name", registration.EventId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", registration.UserId);
-            return View(registration);
-        }
-
-        // POST: Registrations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,EventId,IsOrganised")] Registration registration)
-        {
-            if (id != registration.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(registration);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RegistrationExists(registration.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Name", registration.EventId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name", registration.UserId);
-            return View(registration);
-        }
+       
 
         // GET: Registrations/Delete/5
         public async Task<IActionResult> Delete(int? id)
