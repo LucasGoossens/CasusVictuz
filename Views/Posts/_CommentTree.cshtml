@@ -26,7 +26,7 @@
         <ul>
             @foreach (var reply in Model.Replies)
             {
-                @Html.Partial("_CommentTree", reply) <!-- Recursive call to partial view for each reply -->
+                @Html.Partial("_CommentTree", reply) 
             }
         </ul>
     }
