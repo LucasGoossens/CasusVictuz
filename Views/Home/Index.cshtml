@@ -1,8 +1,56 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Victuz</h1>
-    <div>Victuz</div>
+<div class="homepage">
+    <!-- Next Event Section -->
+    <section class="next-event">
+        <h2>Ons eerstvolgende evenement:</h2>
+        <div class="event-content">
+            <div class="event-image">
+                <!-- Placeholder image for the next event -->
+                <img src="https://via.placeholder.com/300x200?text=Event+Image" alt="Event Image">
+            </div>
+            <div class="event-details">
+                <h3>Evenement naam</h3>
+                <p>Evenement beschrijving<br>Evenement beschrijving</p>
+                <a href="#" class="btn-register">Schrijf je nu in!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda Section -->
+    <section class="agenda">
+        <h3>Agenda</h3>
+        <div class="agenda-items">
+            <div class="agenda-item">
+                <!-- Placeholder image for agenda items -->
+                <img src="https://via.placeholder.com/50x50?text=Img" alt="Agenda Image">
+                <p>Evenement<br>Beschrijving, tijd</p>
+            </div>
+            <div class="agenda-item">
+                <!-- Another placeholder for agenda -->
+                <img src="https://via.placeholder.com/50x50?text=Img" alt="Agenda Image">
+                <p>Evenement<br>Beschrijving, tijd</p>
+            </div>
+        </div>
+        <a href="#" class="btn-more">Bekijk meer</a>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="sponsors">
+        <h3>Onze Sponsoren</h3>
+        <div class="sponsor-logos">
+            <!-- Placeholder images for sponsors -->
+            <img src="https://via.placeholder.com/150x100?text=Sponsor+1" alt="Sponsor 1">
+            <img src="https://via.placeholder.com/150x100?text=Sponsor+2" alt="Sponsor 2">
+            <img src="https://via.placeholder.com/150x100?text=Sponsor+3" alt="Sponsor 3">
+            <img src="https://via.placeholder.com/150x100?text=Sponsor+4" alt="Sponsor 4">
+        </div>
+    </section>
 </div>
+
+<!-- Optional Scripts Section -->
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
