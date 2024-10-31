@@ -158,7 +158,7 @@ namespace CasusVictuz.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId")] Event @event)
+        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId, UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -195,7 +195,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (id != @event.Id)
             {
