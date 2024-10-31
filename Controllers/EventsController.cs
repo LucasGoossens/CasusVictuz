@@ -137,8 +137,10 @@ namespace CasusVictuz.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
         {
+            @event.IsAccepted = true;
             if (ModelState.IsValid)
             {
+                 // Ensure IsAccepted is always true
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(IndexAdmin));
