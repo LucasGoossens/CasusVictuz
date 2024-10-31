@@ -67,8 +67,8 @@
         </dt>
         <dd class="col-sm-10">
             @{
-                var firstOrganizer = Model.Registrations
-                .FirstOrDefault(r => r.IsOrganised)?.User?.Name;
+                var firstOrganizerRegistrations = Model.Registrations.FirstOrDefault(r => r.IsOrganised);
+                var firstOrganizer = firstOrganizerRegistrations?.User?.Name;
 
                 if (!string.IsNullOrEmpty(firstOrganizer))
                 {

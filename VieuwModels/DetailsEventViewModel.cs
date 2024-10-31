@@ -9,5 +9,6 @@ namespace CasusVictuz.VieuwModels
         public List<User> UserNotInEvent { get; set; }
         public List<Registration> Registrations { get; set; }
         public List<User> RegisteredUsers { get; set; } // Voeg deze regel toe
+        public string? FirstOrganizer { get; set; }
     }
 }
