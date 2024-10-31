@@ -46,7 +46,15 @@ namespace CasusVictuz.Controllers
 
         public async Task<IActionResult> IndexAdmin()
         {
-            var victuzDb = _context.Events.Include(e => e.Category);
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => e.IsAccepted);
+            return View(await victuzDb.ToListAsync());
+        }
+
+        public async Task<IActionResult> SuggestionIndex()
+        {
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => !e.IsAccepted);
             return View(await victuzDb.ToListAsync());
         }
 
@@ -60,6 +68,7 @@ namespace CasusVictuz.Controllers
             }
 
             var @event = await _context.Events
+               .Include(e => e.Category)
                .Include(e => e.Registrations)
                .ThenInclude(r => r.User)
                .FirstOrDefaultAsync(m => m.Id == id);
@@ -180,6 +189,23 @@ namespace CasusVictuz.Controllers
                 @event.IsAccepted = false;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
+
+                var suggestorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var registration = new Registration
+                {
+                    
+                    UserId = int.Parse(suggestorUserId),
+                    User = null,
+                    EventId = @event.Id,
+                    Event = null,
+                    IsOrganised = true
+                };
+
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+
+
                 return RedirectToAction(nameof(IndexUser));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);

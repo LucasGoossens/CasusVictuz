@@ -4,36 +4,32 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Alle huidige suggesties</h1>
 
 <p>
-    <a asp-action="CreateAdmin">Maak aan</a>
-</p>
-
-<p>
-    <a asp-action="SuggestionIndex">Bekijk alle suggesties</a>
+    <a asp-action="IndexAdmin">Bekijk alle geplande evenementen</a>
 </p>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Datum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Evenement
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Beschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Spots)
+                Plaatsen
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                Locatie
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                Catagory
             </th>
             <th></th>
         </tr>
@@ -61,9 +57,9 @@
                     @Html.DisplayFor(modelItem => item.Category.Title)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="DetailsAdmin" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Goedkeuren</a> |
+                    <a asp-action="DetailsAdmin" asp-route-id="@item.Id">Bekijken</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Afkeuren</a>
                 </td>
             </tr>
         }
