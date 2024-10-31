@@ -27,6 +27,9 @@
             <th>
                 Tijd
             </th>
+            <th>
+                Afbeelding
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -42,6 +45,17 @@
                 <td>
                     @(item.Date.HasValue ? item.Date.Value.ToString("HH:mm") : "N/A")
                 </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.UrlLinkPicture))
+                    {
+                        <img src="@item.UrlLinkPicture" alt="Evenement afbeelding" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </td>
+
             <td>
                     <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Meer info</a>
             </td>

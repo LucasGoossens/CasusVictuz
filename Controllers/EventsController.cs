@@ -135,7 +135,7 @@ namespace CasusVictuz.Controllers
         // POST: Events/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -161,6 +161,7 @@ namespace CasusVictuz.Controllers
             {
                 return NotFound();
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
