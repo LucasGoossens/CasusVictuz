@@ -35,9 +35,12 @@
                     @(item.Event.Date.HasValue ? item.Event.Date.Value.ToString("HH:mm") : "N/A")
                 </td>
             <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Bekijken</a>  
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">uitschrijven</a>
-            </td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Bekijken</a>
+                    @if (!item.IsOrganised)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">uitschrijven</a>
+                    }
+                </td>
         </tr>
 }
     </tbody>

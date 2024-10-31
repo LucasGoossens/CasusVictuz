@@ -6,7 +6,9 @@
     <title>@ViewData["Title"] - CasusVictuz</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CasusVictuz.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/CasusVictuzStyleSheetFix.css" asp-append-version="true" />
+
+
 </head>
 <body>
     <header>
@@ -65,11 +67,17 @@
         </main>
     </div>
 
-    @* <footer class="border-top footer text-muted">
+    <footer class="border-top footer">
         <div class="container">
-            &copy; 2024 - CasusVictuz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <h5 style="color:white;">Contact</h5>
+            <p>Studentenvereniging Victuz van Zuyd hogeschool ICT-academy</p>
+            <ul>
+                <li>Nieuw Eyckholt 300, 6419 DJ Heerlen</li>
+                <li><span>&#9742;</span> +31 00 000 00 00</li>
+                <li><span>&#9993;</span> Victuz@info.nl</li>
+            </ul>
         </div>
-    </footer> *@
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
