@@ -21,7 +21,7 @@
         <a asp-action="CreateSuggestion" asp-route-id="@int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)" class="btn btn-primary">Evenement Suggestie Maken</a>
     </div>
 }
-<table class="table">
+@* <table class="table">
     <thead>
         <tr>
             <th>
@@ -39,20 +39,82 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @(item.Date.HasValue ? item.Date.Value.ToString("dd-MM-yyyy") : "N/A")
-                </td>
-                <td>
-                    @(item.Date.HasValue ? item.Date.Value.ToString("HH:mm") : "N/A")
-                </td>
-            <td>
-                    <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Meer info</a>
-                </td>
-            </tr>
+        <tr>
+        <td>
+        @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+        @(item.Date.HasValue ? item.Date.Value.ToString("dd-MM-yyyy") : "N/A")
+        </td>
+        <td>
+        @(item.Date.HasValue ? item.Date.Value.ToString("HH:mm") : "N/A")
+        </td>
+        <td>
+        <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Meer info</a>
+        </td>
+        </tr>
         }
-    </tbody>
+ *@
+<div class="container d-flex flex-row flex-wrap">
+    @foreach (var item in Model)
+    {
+        <div class="card p-2 m-1" style="width:18rem;">
+            @*Hier moet dan src="@item.UrlLinkPicture"*@
+            <img class="card-img-top" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <div class="fw-bold">Datum:</div>
+                <p class="card-text">@(item.Date.HasValue ? item.Date.Value.ToString("dd-MM-yyyy") : "N/A")</p>
+                <p class="card-text">
+                    <div class="fw-bold">Beschikbare plaatsen:</div>
+                    @item.Registrations.Count() / @item.Spots
+
+                </p>
+                <a href="#" class="btn btn-primary">Details</a>
+
+                @{
+                    string buttonToShow = "openRegister";
+
+                    if (item.Spots == item.Registrations.Count())
+                    {
+                        buttonToShow = "closedRegister";
+                    }
+
+                    int loggedInUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                    if (loggedInUserId != null)
+                    {
+                        foreach (var registration in item.Registrations)
+                        {
+                            if (registration.UserId == loggedInUserId)
+                            {
+                                buttonToShow = "alreadyRegistered";
+                            }
+                        }
+                    }
+                }                
+
+                @if (buttonToShow == "closedRegister")
+                {
+                    <a href="#" class="btn btn-secondary" disabled>Gesloten</a>
+                }
+                else if (buttonToShow == "openRegister")
+                {
+                    <a asp-action="Register" asp-controller="Events" asp-route-eventId="@item.Id"  class="btn btn-primary">Inschrijven</a>
+                }
+                else if (buttonToShow == "alreadyRegistered")
+                {
+
+                    <a asp-action="Unregister" asp-controller="Events" asp-route-id="@item.Registrations.FirstOrDefault(r => r.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)).Id" class="btn btn-danger">Uitschrijven</a>
+                }
+
+
+            </div>
+        </div>
+    }
+</div>
+
+@*  </tbody>
 </table>
+ *@
