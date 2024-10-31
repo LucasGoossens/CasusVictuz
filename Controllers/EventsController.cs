@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CasusVictuz.Data;
 using Casusvictuz;
 using System.Security.Claims;
+using CasusVictuz.VieuwModels;
 
 namespace CasusVictuz.Controllers
 {
@@ -46,15 +47,28 @@ namespace CasusVictuz.Controllers
             }
 
             var @event = await _context.Events
-                .Include(e => e.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+               .Include(e => e.Registrations)
+               .ThenInclude(r => r.User)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(@event); // Ensure you're returning the correct model
+            var registeredUsers = @event.Registrations.Select(r => r.User).ToList();
+
+            var viewModel = new DetailsEventViewModel
+            {
+                Event = @event,
+                RegisteredUsers = registeredUsers
+
+            };
+            return View(viewModel); // Ensure you're returning the correct model
+
+
         }
+
 
         public async Task<IActionResult> DetailsUser(int? id)
         {
@@ -99,6 +113,28 @@ namespace CasusVictuz.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
+        // GET: Events/CreateAdmin
+        public IActionResult CreateAdmin()
+        {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            return View();
+        }
+
+        // POST: Events/CreateAdmin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(@event);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(IndexAdmin));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            return View(@event);
+        }
+
 
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
