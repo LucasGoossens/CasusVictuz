@@ -32,11 +32,11 @@ namespace CasusVictuz.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-         victuzDb = victuzDb.Where(e => 
-            e.Name.Contains(searchString) || 
-            e.Category.Title.Contains(searchString) ||
-            e.Tags.Any(t => t.Name.Contains(searchString))
-        );
+                victuzDb = victuzDb.Where(e =>
+                   e.Name.Contains(searchString) ||
+                   e.Category.Title.Contains(searchString) ||
+                   e.Tags.Any(t => t.Name.Contains(searchString))
+               );
             }
 
             victuzDb = victuzDb.OrderBy(e => e.Date);
@@ -114,7 +114,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace CasusVictuz.Controllers
         // POST: Events/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             @event.IsAccepted = true;
             if (ModelState.IsValid)
@@ -158,7 +158,7 @@ namespace CasusVictuz.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId")] Event @event)
+        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId, UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -185,6 +185,7 @@ namespace CasusVictuz.Controllers
             {
                 return NotFound();
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
@@ -194,7 +195,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (id != @event.Id)
             {
@@ -264,7 +265,7 @@ namespace CasusVictuz.Controllers
             return _context.Events.Any(e => e.Id == id);
         }
 
-        
+
 
 
         public IActionResult Register(int eventId)

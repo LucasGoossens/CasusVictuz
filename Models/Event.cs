@@ -21,5 +21,6 @@ namespace Casusvictuz
         public virtual required Category? Category { get; set; } 
         public virtual ICollection<Registration>? Registrations { get; set; }
         public virtual ICollection<Tag>? Tags { get; set; }
+        public string? UrlLinkPicture { get; set; }
     }
 }
