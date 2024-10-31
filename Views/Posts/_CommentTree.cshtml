@@ -1,9 +1,10 @@
 ﻿@model Casusvictuz.Comment
 
-<li>
-    <strong>@Model.User.Name</strong> - @Model.Content
+<li class="list-group-item pt-1 my-1">
+    <strong>@Model.User.Name</strong>
+    <div>@Model.Content</div>
 
-    <button type="button" onclick="toggleReplyForm(@Model.Id)" class="btn btn-link">Reply</button>
+    <button type="button" onclick="toggleReplyForm(@Model.Id)" class="btn btn-link">...</button>
     <div id="replyForm-@Model.Id" style="display:none;">
         <form asp-action="CreateReply" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,7 +24,7 @@
     
     @if (Model.Replies != null && Model.Replies.Any())
     {
-        <ul>
+        <ul >
             @foreach (var reply in Model.Replies)
             {
                 @Html.Partial("_CommentTree", reply) 
