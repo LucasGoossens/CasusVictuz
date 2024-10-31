@@ -91,6 +91,25 @@ namespace CasusVictuz.Controllers
             return RedirectToAction("Login", "Users");
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .Include(u => u.Registrations) 
+                .Include(u => u.Posts)         
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
     }
 
 }
