@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasusVictuz.Migrations
 {
     [DbContext(typeof(VictuzDb))]
-    [Migration("20241031093239_AddIsMemberToUser")]
-    partial class AddIsMemberToUser
+    [Migration("20241031121920_createV21")]
+    partial class createV21
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,9 @@ namespace CasusVictuz.Migrations
 
                     b.Property<int?>("Spots")
                         .HasColumnType("int");
+
+                    b.Property<string>("UrlLinkPicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,0 +1,42 @@
+﻿@model Casusvictuz.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Gebruikers informatie</h1>
+<div>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">Naam</dt>
+        <dd class="col-sm-10">@Model.Name</dd> 
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">
+            @{
+                if (Model.IsAdmin)
+                {
+                    <span>Administrator</span>
+                }
+                else if (Model.IsMember)
+                {
+                    <span>Lid</span>
+                }
+                else
+                {
+                    <span>Gast</span>
+                }
+            }
+            
+        </dd> 
+
+
+
+        <dt class="col-sm-2">Aantal Posts</dt>
+        <dd class="col-sm-10">@Model.Posts?.Count()</dd>  
+
+        <dt class="col-sm-2">Aantal Registraties</dt>
+        <dd class="col-sm-10">@Model.Registrations?.Count()</dd> 
+    </dl>
+</div>

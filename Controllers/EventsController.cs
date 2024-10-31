@@ -180,6 +180,23 @@ namespace CasusVictuz.Controllers
                 @event.IsAccepted = false;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
+
+                var suggestorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var registration = new Registration
+                {
+                    
+                    UserId = int.Parse(suggestorUserId),
+                    User = null,
+                    EventId = @event.Id,
+                    Event = null,
+                    IsOrganised = true
+                };
+
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+
+
                 return RedirectToAction(nameof(IndexUser));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);

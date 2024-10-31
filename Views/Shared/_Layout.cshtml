@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,8 +43,14 @@
                         <img src="https://i.ibb.co/jRWYnxg/avatar-icon-white.png" alt="Account" style="height: 40px; width: auto;">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Info">Informatie</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Registrations" asp-action="Index">Mijn inschrijvingen</a></li>
+                            @{var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            if (userId != null)
+                            {
+                            int currentUserId = int.Parse(userId);
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@currentUserId">Informatie</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Registrations" asp-action="Index">Mijn inschrijvingen</a></li>
+                                }
+                            }
                         <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Login">Log In</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a></li>
                         <!-- Admin functions (visible only if user is admin) -->
