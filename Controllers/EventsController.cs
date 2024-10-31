@@ -80,11 +80,14 @@ namespace CasusVictuz.Controllers
             }
 
             var registeredUsers = @event.Registrations.Select(r => r.User).ToList();
+            var firstOrganizerRegistrations = @event.Registrations.FirstOrDefault(r => r.IsOrganised);
+            var firstOrganizer = firstOrganizerRegistrations?.User?.Name;
 
             var viewModel = new DetailsEventViewModel
             {
                 Event = @event,
-                RegisteredUsers = registeredUsers
+                RegisteredUsers = registeredUsers,
+                FirstOrganizer = firstOrganizer ?? "onbekend"
 
             };
             return View(viewModel); // Ensure you're returning the correct model
@@ -103,6 +106,7 @@ namespace CasusVictuz.Controllers
             var @event = await _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Registrations)
+                .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
