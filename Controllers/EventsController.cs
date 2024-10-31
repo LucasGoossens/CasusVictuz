@@ -100,7 +100,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
