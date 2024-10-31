@@ -148,6 +148,28 @@ namespace CasusVictuz.Controllers
         }
 
 
+        public IActionResult CreateSuggestion()
+        {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId")] Event @event)
+        {
+            if (ModelState.IsValid)
+            {
+                @event.IsAccepted = false;
+                _context.Add(@event);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(IndexUser));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            return View(@event);
+        }
+
+
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
