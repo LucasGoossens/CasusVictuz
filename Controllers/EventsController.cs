@@ -27,6 +27,7 @@ namespace CasusVictuz.Controllers
             var victuzDb = _context.Events
                 .Include(e => e.Tags)
                 .Include(e => e.Category)
+                .Include(e => e.Registrations)
                 .Where(e => e.IsAccepted == true)
                 .Where(e => e.Date >= DateTime.Now);
 
@@ -148,6 +149,7 @@ namespace CasusVictuz.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Ensure IsAccepted is always true
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
 
@@ -308,7 +310,7 @@ namespace CasusVictuz.Controllers
 
 
 
-
+        [ActionName("Register")]
         public IActionResult Register(int eventId)
         {
             // check of de gebruiker is ingelogd
@@ -325,12 +327,17 @@ namespace CasusVictuz.Controllers
             var alreadyRegistered = _context.Registrations.Any(r => r.UserId == customerId && r.EventId == eventId);
             if (alreadyRegistered)
             {
-                return BadRequest("Je bent al gerigistreerd voor dit evenement");
+                return BadRequest("Je bent al geregistreerd voor dit evenement");
             }
 
             // Controleer of het evenement volgeboekt is
             var eventItem = _context.Events.Include(e => e.Registrations).FirstOrDefault(e => e.Id == eventId);
-            if (eventItem == null || eventItem.Registrations.Count >= eventItem.Spots)
+            if (eventItem == null)
+            {
+                return BadRequest("Event null");
+            }
+
+            if (eventItem.Registrations.Count >= eventItem.Spots)
             {
                 return BadRequest("Dit evenement is al vol");
             }
@@ -349,6 +356,21 @@ namespace CasusVictuz.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("DetailsUser", new { id = eventId });
+        }
+
+
+        [ActionName("Unregister")]        
+        public async Task<IActionResult> UnregisterUserForEvent(int id)
+        {
+            System.Diagnostics.Debug.WriteLine(id);            
+            var registration = await _context.Registrations.FindAsync(id);
+            if (registration != null)
+            {
+                _context.Registrations.Remove(registration);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexUser));
         }
 
     }
