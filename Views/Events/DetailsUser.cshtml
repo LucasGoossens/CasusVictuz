@@ -94,6 +94,8 @@
             int loggedInUserId = int.Parse(currentUserId);
 
             bool userIsAlreadyRegistered = Model.Registrations.Any(r => r.UserId == loggedInUserId);
+            bool isMember = User.HasClaim("IsMember", "True");
+
             if (userIsAlreadyRegistered)
             {
                 <p>Je bent ingeschreven voor dit evenement</p>
@@ -106,10 +108,17 @@
 
             else
             {
-                <form asp-action="Register" asp-controller="Events" method="post">
-                    <input type="hidden" name="eventId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary">Inschrijven</button>
-                </form>
+                if (!isMember && (DateTime.Now - Model.Date.Value).TotalDays < 7)
+                {
+                    <div>U kunt zich als gast niet meer aanmelden voor dit evenement. </div>
+                }
+                else
+                {
+                    <form asp-action="Register" asp-controller="Events" method="post">
+                        <input type="hidden" name="eventId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-primary">Inschrijven</button>
+                    </form>
+                }
             }
         }
     }
