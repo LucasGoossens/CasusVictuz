@@ -31,11 +31,11 @@ namespace CasusVictuz.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-         victuzDb = victuzDb.Where(e => 
-            e.Name.Contains(searchString) || 
-            e.Category.Title.Contains(searchString) ||
-            e.Tags.Any(t => t.Name.Contains(searchString))
-        );
+                victuzDb = victuzDb.Where(e =>
+                   e.Name.Contains(searchString) ||
+                   e.Category.Title.Contains(searchString) ||
+                   e.Tags.Any(t => t.Name.Contains(searchString))
+               );
             }
 
             victuzDb = victuzDb.OrderBy(e => e.Date);
@@ -204,7 +204,7 @@ namespace CasusVictuz.Controllers
             return _context.Events.Any(e => e.Id == id);
         }
 
-        
+
 
 
         public IActionResult Register(int eventId)
