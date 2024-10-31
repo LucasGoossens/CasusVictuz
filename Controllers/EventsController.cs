@@ -137,12 +137,27 @@ namespace CasusVictuz.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId")] Event @event)
         {
-            @event.IsAccepted = true;
             if (ModelState.IsValid)
             {
-                 // Ensure IsAccepted is always true
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
+
+                // Assuming you have a way to get the current admin user ID
+                var adminUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                @event.IsAccepted = true;
+                // Create a new Registration record for the admin
+                var registration = new Registration
+                {
+                    UserId = int.Parse(adminUserId),
+                    User = await _context.Users.FindAsync(int.Parse(adminUserId)), // Set the User property
+                    EventId = @event.Id,
+                    Event = @event, // Set the Event property
+                    IsOrganised = true
+                };
+
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(IndexAdmin));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
