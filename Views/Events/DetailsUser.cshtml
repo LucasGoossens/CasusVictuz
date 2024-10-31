@@ -108,9 +108,9 @@
 
             else
             {
-                if (!isMember && (DateTime.Now - Model.Date.Value).TotalDays < 7)
+                if (!isMember && (Model.Date.Value - DateTime.Now).TotalDays > 7)
                 {
-                    <div>U kunt zich als gast niet meer aanmelden voor dit evenement. </div>
+                    <div>U kunt zich als gast nog niet aanmelden voor dit evenement. </div>
                 }
                 else
                 {
