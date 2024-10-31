@@ -48,6 +48,7 @@ namespace CasusVictuz.Controllers
         {
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim("IsMember", user.IsMember ? "True" : "False"),
             new Claim("IsAdmin", user.IsAdmin ? "True" : "False")
         };
 
