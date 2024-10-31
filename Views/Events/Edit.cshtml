@@ -50,6 +50,21 @@
                 <span asp-validation-for="UrlLinkPicture" class="text-danger"></span>
             </div>
 
+            @if (Model.IsAccepted == false)
+            {
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="form-group form-check" style="display: none;">
+                    <input type="hidden" class="form-check-input" asp-for="IsAccepted" value="true" />
+                </div>
+            }
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

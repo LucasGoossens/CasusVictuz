@@ -46,7 +46,15 @@ namespace CasusVictuz.Controllers
 
         public async Task<IActionResult> IndexAdmin()
         {
-            var victuzDb = _context.Events.Include(e => e.Category);
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => e.IsAccepted);
+            return View(await victuzDb.ToListAsync());
+        }
+
+        public async Task<IActionResult> SuggestionIndex()
+        {
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => !e.IsAccepted);
             return View(await victuzDb.ToListAsync());
         }
 
@@ -60,6 +68,7 @@ namespace CasusVictuz.Controllers
             }
 
             var @event = await _context.Events
+               .Include(e => e.Category)
                .Include(e => e.Registrations)
                .ThenInclude(r => r.User)
                .FirstOrDefaultAsync(m => m.Id == id);

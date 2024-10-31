@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasusVictuz.Migrations
 {
     [DbContext(typeof(VictuzDb))]
-    [Migration("20241031121920_createV21")]
-    partial class createV21
+    [Migration("20241031175855_makeDb")]
+    partial class makeDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -239,7 +239,7 @@ namespace CasusVictuz.Migrations
                     b.HasOne("Casusvictuz.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -269,13 +269,13 @@ namespace CasusVictuz.Migrations
                     b.HasOne("Casusvictuz.Event", "Event")
                         .WithMany("Registrations")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Casusvictuz.User", "User")
                         .WithMany("Registrations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Event");
