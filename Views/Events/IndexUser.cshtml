@@ -6,6 +6,14 @@
 
 <h1>Alle opkomende evenementen</h1>
 
+<form asp-action="IndexUser" method="get">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Zoek op evenement naam" value="@ViewData["CurrentFilter"]" />
+    </div>
+    <p></p>
+    <button type="submit" class="btn btn-primary">Zoeken</button>
+</form>
+
 
 <table class="table">
     <thead>
