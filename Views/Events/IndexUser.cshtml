@@ -60,8 +60,7 @@
     {
         <div class="card p-2 m-1" style="width:18rem;">
             @*Hier moet dan src="@item.UrlLinkPicture"*@
-            <img class="card-img-top" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-
+            <img class="card-img-top" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />            
             <div class="card-body">
                 <h5 class="card-title">@item.Name</h5>
                 <p class="card-text">@item.Description</p>
@@ -70,7 +69,12 @@
                 <p class="card-text">
                     <div class="fw-bold">Beschikbare plaatsen:</div>
                     @item.Registrations.Count() / @item.Spots
-
+                    @* @if (item.Registrations.FirstOrDefault(r => r.IsOrganised).UserId == loggedInUserId)
+                {
+                <p class="card-text">
+                U bent de organisator van dit evenement.
+                </p> *@
+                    
                 </p>
                 <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
 
@@ -93,7 +97,8 @@
                             }
                         }
                     }
-                }                
+                }
+
 
                 @if (buttonToShow == "closedRegister")
                 {
@@ -101,12 +106,19 @@
                 }
                 else if (buttonToShow == "openRegister")
                 {
-                    <a asp-action="Register" asp-controller="Events" asp-route-eventId="@item.Id"  class="btn btn-primary">Inschrijven</a>
+                    <a asp-action="Register" asp-controller="Events" asp-route-eventId="@item.Id" class="btn btn-primary">Inschrijven</a>
                 }
                 else if (buttonToShow == "alreadyRegistered")
                 {
-
-                    <a asp-action="Unregister" asp-controller="Events" asp-route-id="@item.Registrations.FirstOrDefault(r => r.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)).Id" class="btn btn-danger">Uitschrijven</a>
+                    var registrationToCheck = item.Registrations.FirstOrDefault(r => r.IsOrganised);
+                    if (registrationToCheck != null && registrationToCheck.UserId == loggedInUserId)
+                    {
+                        <a  class="btn btn-secondary" disabled>Organistor</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Unregister" asp-controller="Events" asp-route-id="@item.Registrations.FirstOrDefault(r => r.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)).Id" class="btn btn-danger">Uitschrijven</a>
+                    }
                 }
 
 
