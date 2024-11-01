@@ -9,6 +9,7 @@ using CasusVictuz.Data;
 using Casusvictuz;
 using System.Security.Claims;
 using CasusVictuz.VieuwModels;
+using CasusVictuz.Models;
 
 namespace CasusVictuz.Controllers
 {
@@ -135,16 +136,17 @@ namespace CasusVictuz.Controllers
         // POST: Events/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (ModelState.IsValid)
             {
+                @event.IsAccepted = true;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
 
                 // Assuming you have a way to get the current admin user ID
                 var adminUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                @event.IsAccepted = true;
+
                 // Create a new Registration record for the admin
                 var registration = new Registration
                 {
@@ -156,6 +158,18 @@ namespace CasusVictuz.Controllers
                 };
 
                 _context.Registrations.Add(registration);
+
+                // Add tags to the event
+                foreach (var tagName in Tags)
+                {
+                    var tag = new Tag
+                    {
+                        Name = tagName,
+                        EventId = @event.Id
+                    };
+                    _context.Tags.Add(tag);
+                }
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(IndexAdmin));
