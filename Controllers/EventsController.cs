@@ -248,6 +248,7 @@ namespace CasusVictuz.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
 
             return View(@event);
         }
@@ -296,6 +297,7 @@ namespace CasusVictuz.Controllers
                 }
                 return RedirectToAction(nameof(IndexUser));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 
