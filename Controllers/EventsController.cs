@@ -28,6 +28,7 @@ namespace CasusVictuz.Controllers
             var victuzDb = _context.Events
                 .Include(e => e.Tags)
                 .Include(e => e.Category)
+                .Include(e => e.Registrations)
                 .Where(e => e.IsAccepted == true)
                 .Where(e => e.Date >= DateTime.Now);
 
@@ -47,7 +48,15 @@ namespace CasusVictuz.Controllers
 
         public async Task<IActionResult> IndexAdmin()
         {
-            var victuzDb = _context.Events.Include(e => e.Category);
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => e.IsAccepted);
+            return View(await victuzDb.ToListAsync());
+        }
+
+        public async Task<IActionResult> SuggestionIndex()
+        {
+            var victuzDb = _context.Events.Include(e => e.Category)
+            .Where(e => !e.IsAccepted);
             return View(await victuzDb.ToListAsync());
         }
 
@@ -61,6 +70,7 @@ namespace CasusVictuz.Controllers
             }
 
             var @event = await _context.Events
+               .Include(e => e.Category)
                .Include(e => e.Registrations)
                .ThenInclude(r => r.User)
                .FirstOrDefaultAsync(m => m.Id == id);
@@ -71,11 +81,14 @@ namespace CasusVictuz.Controllers
             }
 
             var registeredUsers = @event.Registrations.Select(r => r.User).ToList();
+            var firstOrganizerRegistrations = @event.Registrations.FirstOrDefault(r => r.IsOrganised);
+            var firstOrganizer = firstOrganizerRegistrations?.User?.Name;
 
             var viewModel = new DetailsEventViewModel
             {
                 Event = @event,
-                RegisteredUsers = registeredUsers
+                RegisteredUsers = registeredUsers,
+                FirstOrganizer = firstOrganizer ?? "onbekend"
 
             };
             return View(viewModel); // Ensure you're returning the correct model
@@ -94,6 +107,7 @@ namespace CasusVictuz.Controllers
             var @event = await _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Registrations)
+                .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
@@ -194,6 +208,23 @@ namespace CasusVictuz.Controllers
                 @event.IsAccepted = false;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
+
+                var suggestorUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var registration = new Registration
+                {
+                    
+                    UserId = int.Parse(suggestorUserId),
+                    User = null,
+                    EventId = @event.Id,
+                    Event = null,
+                    IsOrganised = true
+                };
+
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+
+
                 return RedirectToAction(nameof(IndexUser));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
@@ -296,7 +327,7 @@ namespace CasusVictuz.Controllers
 
 
 
-
+        [ActionName("Register")]
         public IActionResult Register(int eventId)
         {
             // check of de gebruiker is ingelogd
@@ -313,12 +344,17 @@ namespace CasusVictuz.Controllers
             var alreadyRegistered = _context.Registrations.Any(r => r.UserId == customerId && r.EventId == eventId);
             if (alreadyRegistered)
             {
-                return BadRequest("Je bent al gerigistreerd voor dit evenement");
+                return BadRequest("Je bent al geregistreerd voor dit evenement");
             }
 
             // Controleer of het evenement volgeboekt is
             var eventItem = _context.Events.Include(e => e.Registrations).FirstOrDefault(e => e.Id == eventId);
-            if (eventItem == null || eventItem.Registrations.Count >= eventItem.Spots)
+            if (eventItem == null)
+            {
+                return BadRequest("Event null");
+            }
+
+            if (eventItem.Registrations.Count >= eventItem.Spots)
             {
                 return BadRequest("Dit evenement is al vol");
             }
@@ -337,6 +373,21 @@ namespace CasusVictuz.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("DetailsUser", new { id = eventId });
+        }
+
+
+        [ActionName("Unregister")]        
+        public async Task<IActionResult> UnregisterUserForEvent(int id)
+        {
+            System.Diagnostics.Debug.WriteLine(id);            
+            var registration = await _context.Registrations.FindAsync(id);
+            if (registration != null)
+            {
+                _context.Registrations.Remove(registration);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexUser));
         }
 
     }
