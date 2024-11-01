@@ -9,6 +9,7 @@ using CasusVictuz.Data;
 using Casusvictuz;
 using System.Security.Claims;
 using CasusVictuz.VieuwModels;
+using CasusVictuz.Models;
 
 namespace CasusVictuz.Controllers
 {
@@ -149,17 +150,17 @@ namespace CasusVictuz.Controllers
         // POST: Events/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (ModelState.IsValid)
             {
-                // Ensure IsAccepted is always true
+                @event.IsAccepted = true;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
 
                 // Assuming you have a way to get the current admin user ID
                 var adminUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                @event.IsAccepted = true;
+
                 // Create a new Registration record for the admin
                 var registration = new Registration
                 {
@@ -171,6 +172,18 @@ namespace CasusVictuz.Controllers
                 };
 
                 _context.Registrations.Add(registration);
+
+                // Add tags to the event
+                foreach (var tagName in Tags)
+                {
+                    var tag = new Tag
+                    {
+                        Name = tagName,
+                        EventId = @event.Id
+                    };
+                    _context.Tags.Add(tag);
+                }
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(IndexAdmin));
@@ -227,13 +240,15 @@ namespace CasusVictuz.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
+            var @event = await _context.Events
+                .Include(e => e.Tags) // Include the Tags
+                .FirstOrDefaultAsync(e => e.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
             }
 
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 
@@ -242,7 +257,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (id != @event.Id)
             {
@@ -253,7 +268,19 @@ namespace CasusVictuz.Controllers
             {
                 try
                 {
+                    // Update the event
                     _context.Update(@event);
+
+                    // Update the tags
+                    var existingTags = await _context.Tags.Where(t => t.EventId == id).ToListAsync();
+                    _context.Tags.RemoveRange(existingTags);
+
+                    foreach (var tagName in Tags)
+                    {
+                        var tag = new Tag { Name = tagName, EventId = id };
+                        _context.Tags.Add(tag);
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -267,9 +294,8 @@ namespace CasusVictuz.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexAdmin));
+                return RedirectToAction(nameof(IndexUser));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 
