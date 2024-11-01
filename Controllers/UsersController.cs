@@ -110,6 +110,11 @@ namespace CasusVictuz.Controllers
             return View(user);
         }
 
+        public async Task<IActionResult> AdminUsers()
+        {
+            return View();
+        }
+
     }
 
 }
