@@ -240,13 +240,15 @@ namespace CasusVictuz.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
+            var @event = await _context.Events
+                .Include(e => e.Tags) // Include the Tags
+                .FirstOrDefaultAsync(e => e.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
             }
 
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 
@@ -255,7 +257,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (id != @event.Id)
             {
@@ -266,7 +268,19 @@ namespace CasusVictuz.Controllers
             {
                 try
                 {
+                    // Update the event
                     _context.Update(@event);
+
+                    // Update the tags
+                    var existingTags = await _context.Tags.Where(t => t.EventId == id).ToListAsync();
+                    _context.Tags.RemoveRange(existingTags);
+
+                    foreach (var tagName in Tags)
+                    {
+                        var tag = new Tag { Name = tagName, EventId = id };
+                        _context.Tags.Add(tag);
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -280,9 +294,8 @@ namespace CasusVictuz.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexAdmin));
+                return RedirectToAction(nameof(IndexUser));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 

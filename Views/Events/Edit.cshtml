@@ -64,6 +64,21 @@
                     <input type="hidden" class="form-check-input" asp-for="IsAccepted" value="true" />
                 </div>
             }
+            <div class="form-group">
+                <label for="Tags" class="control-label">Tags</label>
+                <div id="tagContainer">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <div class="input-group mb-2">
+                            <input type="text" name="Tags" class="form-control" value="@tag.Name" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-danger" onclick="removeTagInput(this)">Remove</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addTagInput()">Add Tag</button>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -77,5 +92,35 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function addTagInput() {
+            var container = document.getElementById("tagContainer");
+            var div = document.createElement("div");
+            div.className = "input-group mb-2";
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "Tags";
+            input.className = "form-control";
+            input.placeholder = "Enter tag";
+            var buttonDiv = document.createElement("div");
+            buttonDiv.className = "input-group-append";
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-danger";
+            button.innerText = "Remove";
+            button.onclick = function() { removeTagInput(button); };
+            buttonDiv.appendChild(button);
+            div.appendChild(input);
+            div.appendChild(buttonDiv);
+            container.appendChild(div);
+        }
+
+        function removeTagInput(button) {
+            var div = button.parentElement.parentElement;
+            div.remove();
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
