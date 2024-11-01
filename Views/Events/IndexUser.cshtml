@@ -59,8 +59,11 @@
     @foreach (var item in Model)
     {
         <div class="card p-2 m-1" style="width:18rem;">
-            @*Hier moet dan src="@item.UrlLinkPicture"*@
-            <img class="card-img-top" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+
+            <img class="card-img-top"
+                 src="@item.UrlLinkPicture"
+                 onerror="this.onerror; this.src='https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg'"
+                 alt="Afbeelding niet beschikbaar" />
 
             <div class="card-body">
                 <h5 class="card-title">@item.Name</h5>
