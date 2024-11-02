@@ -1,11 +1,13 @@
 ﻿using Casusvictuz;
 using CasusVictuz.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace CasusVictuz.Data
 {
-    public class VictuzDb : DbContext
+    public class VictuzDb : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Post> Posts { get; set; } = null!;
@@ -26,7 +28,8 @@ namespace CasusVictuz.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)
                 .WithMany(c => c.Replies)
