@@ -60,8 +60,15 @@
     {
         <div class="card p-2 m-1" style="width:18rem;">
 
-            <img class="card-img-top"
-                 src="@item.UrlLinkPicture"
+            @{
+                string imgToShow = item.UrlLinkPicture;
+                if (string.IsNullOrEmpty(imgToShow))
+                {
+                    imgToShow = "https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg";
+                }
+            }
+            <img class="card-img-top, IndexPicture"
+                 src=@imgToShow
                  onerror="this.onerror; this.src='https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg'"
                  alt="Afbeelding niet beschikbaar" />
 
