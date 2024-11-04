@@ -1,55 +1,55 @@
-﻿@model IEnumerable<Casusvictuz.Post>
+@model IEnumerable<Casusvictuz.Post>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Forum";
 }
 
-<h1>Index</h1>
+<div class="container mt-5">
+    <!-- Page Header and Introduction -->
+    <div class="text-center mb-5">
+        <h1 class="display-4">Welkom op het Victuz Forum</h1>
+        <p class="lead mt-3">
+            Dit is de plek waar je jouw vragen kunt stellen, ideeën kunt delen, en inspiratie kunt opdoen! Ons forum is een
+            bruisende gemeenschap van gelijkgestemden die graag nieuwe inzichten delen en elkaar helpen groeien.
+            Of je nu een expert bent of net begint, hier kun je deelnemen aan waardevolle discussies over uiteenlopende onderwerpen.
+        </p>
+        <p>
+            Sluit je aan bij de conversatie, deel jouw kennis, en ontdek nieuwe perspectieven. Aarzel niet om een nieuw onderwerp te starten of te reageren op bestaande threads.
+            Samen kunnen we waardevolle kennis en ervaringen uitwisselen die iedereen vooruit helpen!
+        </p>
+        <a asp-action="CreateThread" class="btn btn-primary btn-lg mt-3">Start een Nieuw Onderwerp en Doe Mee!</a>
+    </div>
 
-<p>
-    @* <a asp-action="Create">Create New</a> *@
-    <a asp-action="CreateThread">Create New Thread</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!-- Forum Threads Section -->
+    <div class="row">
+        @foreach (var post in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <!-- Post Category and Details -->
+                        <h5 class="card-title text-primary">@post.Category.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Door <strong>@post.User.Name</strong> op @post.Date.ToString("dd-MM-yyyy")</h6>
+                        
+                        <!-- Post Content Preview -->
+                        <p class="card-text mt-3">
+                            @{
+                                string contentPreview = post.Content.Length > 100 ? post.Content.Substring(0, 100) + "..." : post.Content;
+                            }
+                            @contentPreview
+                        </p>
+                    </div>
+                    
+                    <!-- Action Buttons in Card Footer -->
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm">Lees Volledig Bericht</a>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-secondary btn-sm me-2">Bewerken</a>
+                            <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">Verwijderen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
