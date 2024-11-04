@@ -242,6 +242,7 @@ namespace CasusVictuz.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Tags) // Include the Tags
+                .Include(e => e.Category)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (@event == null)
@@ -249,7 +250,6 @@ namespace CasusVictuz.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
-
             return View(@event);
         }
 
