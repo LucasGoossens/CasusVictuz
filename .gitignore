@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignore Program.cs
+Program.cs
+
+# Ignore appsettings.json
+appsettings.json
+
+# Ignore the Migrations directory and all its contents
+Migrations/
