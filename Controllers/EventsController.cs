@@ -23,7 +23,7 @@ namespace CasusVictuz.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> IndexUser(string? searchString = null)
+        public async Task<IActionResult> IndexUser(string? searchString = null, string? category = null)
         {
             var victuzDb = _context.Events
                 .Include(e => e.Tags)
@@ -41,10 +41,18 @@ namespace CasusVictuz.Controllers
                );
             }
 
+            if (!string.IsNullOrEmpty(category))
+            {
+                victuzDb = victuzDb.Where(e => e.Category.Title == category);
+            }
             victuzDb = victuzDb.OrderBy(e => e.Date);
+
+            var categories = _context.Categories.Select(t => t.Title).ToList();
+            ViewData["Categories"] = categories;
 
             return View(await victuzDb.ToListAsync());
         }
+        
 
         public async Task<IActionResult> IndexAdmin()
         {
@@ -297,6 +305,7 @@ namespace CasusVictuz.Controllers
                 }
                 return RedirectToAction(nameof(IndexUser));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
             return View(@event);
         }
 

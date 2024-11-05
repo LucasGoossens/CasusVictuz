@@ -109,3 +109,68 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     left: 0;
 }
+/* Tags */
+/* Hide the checkbox */
+#check01 {
+    display: none;
+}
+
+/* Style the label container */
+.label-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Arrow style */
+.arrow {
+    border: solid #333;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    margin-left: 5px;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+}
+
+/* Rotate arrow when checkbox is checked */
+#check01:checked + .label-container .arrow {
+    transform: rotate(-135deg);
+}
+
+/* Hide submenu by default */
+.submenu {
+    display: none;
+}
+
+/* Show submenu when checkbox is checked */
+#check01:checked ~ .submenu {
+    display: block;
+}
+
+/* Styling for submenu items to look like tags */
+.submenu li {
+    display: inline-block;
+    border-radius: 10px; /* Smaller border radius */
+    padding: 5px 10px; /* Smaller padding */
+    background-color: #2B6C77; /* Match button background color */
+    color: #fff; /* Match button text color */
+    font-weight: 600;
+    margin: .25em .1em;
+    cursor: pointer; /* Indicate clickability */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .submenu li a {
+        font-size: 1em; /* Smaller font size */
+        border-radius: 4px;
+        color: #fff; /* Ensure link text color matches button text color */
+        text-decoration: none;
+    }
+
+    .submenu li:hover {
+        background-color: #23868E; /* Match button hover background color */
+        color: #fff; /* Ensure text color remains white on hover */
+    }
+
+

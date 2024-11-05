@@ -3,14 +3,41 @@
 
 @{
     ViewData["Title"] = "Index";
+    var categories = ViewData["Categories"] as IEnumerable<string>;
 }
 
 <h1>Alle opkomende evenementen</h1>
 
+<!-- Form Structure -->
 <form asp-action="IndexUser" method="get">
     <div class="form-group">
-        <input type="text" name="searchString" class="form-control" placeholder="Zoek op evenement naam" value="@ViewData["CurrentFilter"]" />
+        <input type="text" name="searchString" class="form-control" placeholder="Zoek op evenement naam of tags" value="@ViewData["CurrentFilter"]" />
     </div>
+
+    <!-- Checkbox to control submenu visibility -->
+    <input id="check01" type="checkbox" name="menu" />
+
+    <!-- Label container with arrow icon -->
+    <div class="label-container">
+        <label for="check01">
+            <span>Categories</span>
+            <i class="arrow"></i>
+        </label>
+    </div>
+
+    <!-- Submenu displaying categories -->
+    <ul class="submenu">
+        @foreach (var category in categories)
+        {
+            <li>
+                <a asp-action="IndexUser" asp-route-category="@category">@category</a>
+            </li>
+        }
+    </ul>
+    <li class="submenu">
+        <a asp-action="IndexUser" class="btn btn-secondary">Clear Filter</a>
+    </li>
+
     <p></p>
     <button type="submit" class="btn btn-primary">Zoeken</button>
 </form>
