@@ -4,36 +4,35 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Maak event</h1>
 
-<h4>Event</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
+                <label asp-for="Date" class="control-label">Starttijd</label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Evenement naam</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Beschrijving</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Spots" class="control-label"></label>
+                <label asp-for="Spots" class="control-label">Aantal beschikbaren plaatsen</label>
                 <input asp-for="Spots" class="form-control" />
                 <span asp-validation-for="Spots" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
+                <label asp-for="Location" class="control-label">Locatie</label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
@@ -41,7 +40,7 @@
             {
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
+                        <input class="form-check-input" asp-for="IsAccepted" /> Geaccepteerd
                 </label>
             </div>
             }
@@ -56,14 +55,14 @@
                 <span asp-validation-for="UrlLinkPicture" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Maak" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="IndexAdmin">Back to List</a>
+    <a asp-action="IndexAdmin">Terug</a>
 </div>
 
 @section Scripts {
