@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victuz Evenementen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <!-- Welkom Sectie -->
+        <section>
+            <h2>Welkom bij Victuz Evenementen</h2>
+            <p class="lead">Ervaar de beste evenementen speciaal voor jou. </p>
+            <p>Maak een account aan of log in om deel te nemen aan unieke ervaringen en ontmoet inspirerende mensen.</p>
+        </section>
+
+        <!-- Voordelen Sectie -->
+        <section class="mt-5">
+            <h3>Waarom lid worden?</h3>
+            <ul class="list-unstyled">
+                <li><strong>🌟 Exclusieve toegang</strong> – Bekijk en schrijf je in voor evenementen die speciaal zijn samengesteld voor onze leden.</li>
+                <li><strong>🎟 Voorrang bij inschrijving</strong> – Zorg ervoor dat je een plekje hebt voor onze populaire evenementen.</li>
+                <li><strong>📅 Makkelijk beheer</strong> – Hou je inschrijvingen en favoriete evenementen overzichtelijk op één plek.</li>
+                <li><strong>💬 Doe suggesties</strong> – Als lid kun je jouw ideeën en suggesties delen om de evenementen naar jouw wensen te maken.</li>
+            </ul>
+            <a href="/users/login" class="btn btn-outline-primary btn-lg mt-3">Log in om je ervaring te beginnen</a>
+        </section>
+
+        <!-- Extra Voordelen Sectie -->
+        <section class="mt-5">
+            <h3>Extra Voordelen van Lidmaatschap</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://media.tenor.com/ZzQNUhQckqMAAAAM/excited-friends.gif" alt="Mensen ontmoeten" class="img-fluid">
+                    <h4>🤝 Ontmoet Nieuwe Mensen</h4>
+                    <p>Maak nieuwe vrienden en breid je netwerk uit met andere enthousiaste leden.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://media0.giphy.com/media/FMpwP8mhQzjcH3oTYj/200.gif?cid=6c09b952b8ssbrcu761l7y975aiky3a4thuxni31jq6dhb2o&ep=v1_internal_gif_by_id&rid=200.gif&ct=g" alt="Unieke Ervaringen" class="img-fluid">
+                    <h4>🌈 Beleef Unieke Ervaringen</h4>
+                    <p>Doe mee aan evenementen die speciaal zijn ontworpen voor de Victuz-gemeenschap.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://media.tenor.com/rsU_wsnFL9kAAAAM/james-franco-exclusive.gif" alt="Ledenvoordelen" class="img-fluid">
+                    <h4>💼 Exclusieve Ledenvoordelen</h4>
+                    <p>Krijg toegang tot speciale kortingen en aanbiedingen voor leden.</p>
+                </div>
+            </div>
+            <a href="/users/create" class="btn btn-success btn-lg mt-4">Wordt nu lid!</a>
+        </section>
+
+        <!-- Klaar om deel te nemen Sectie -->
+        <section class="mt-5">
+            <h3>Klaar om mee te doen?</h3>
+            <p>Mis geen enkel evenement en beleef onvergetelijke momenten met Victuz. Log in of maak een account aan om toegang te krijgen tot alle mogelijkheden!</p>
+            <a href="/users/login" class="btn btn-primary btn-lg mt-3">Log in om verder te gaan</a>
+            <a href="/users/create" class="btn btn-info btn-lg mt-3">Meld je aan</a>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
