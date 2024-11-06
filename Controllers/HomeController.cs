@@ -58,6 +58,12 @@ namespace CasusVictuz.Controllers
             {
                 return View();
             }
+        
+        public IActionResult Member()
+        {
+            return View();
+        }
+
 
     }
 }
