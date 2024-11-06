@@ -1,94 +1,332 @@
-﻿@using CasusVictuz.VieuwModels
-
+@using CasusVictuz.VieuwModels
+@model HomeViewModel
 
 @{
     ViewData["Title"] = "Home";
 }
-@model HomeViewModel
 
+<!-- Main Container -->
 <div class="homepage">
-    <br>
-    <!-- Next Event Section -->
-    <section class="next-event">
-        <div class="event-content">
-        <h2>Eerstvolgende Evenement:</h2>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content">
+
+        <!-- Hero Section for Next Event -->
+        <section class="hero-event">
             @if (Model.NextEvent != null)
             {
-                @if (Model.NextEvent?.UrlLinkPicture != null)
-                {
-                    <img src="@Model.NextEvent.UrlLinkPicture" alt="Event Image" class="event-img">
-                }
-                else
-                {
-                    <img src="https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg" alt="Event Image" class="event-img">
-                }
-                <div class="event-items">
-                    <h3>@Model.NextEvent?.Name</h3>
-                    <p>@Model.NextEvent?.Description</p>
-                    <p>@Model.NextEvent?.Date?.ToString("dd-MM-yyyy HH:mm")</p>
-                    <a asp-controller="Events" asp-action="IndexUser" class="btn btn-primary">Schrijf je nu in!</a>
+                <div class="hero-content">
+                    <div class="hero-image">
+                        <img src="@(Model.NextEvent.UrlLinkPicture ?? "https://t4.ftcdn.net/jpg/08/52/93/57/360_F_852935791_pMCeBDdFRTw9VjZbvf1aU1a5tjWtSz8b.jpg")" alt="Event Image">
+                    </div>
+                    <div class="hero-details">
+                        <h1>@Model.NextEvent.Name</h1>
+                        <p>@Model.NextEvent.Description</p>
+                        <p><strong>Datum en Tijd:</strong> @Model.NextEvent.Date?.ToString("dd-MM-yyyy HH:mm")</p>
+                        <a asp-controller="Events" asp-action="DetailsUser" asp-route-id="@Model.NextEvent.Id" class="btn btn-primary btn-lg">Schrijf je nu in!</a>
+                    </div>
                 </div>
             }
             else
             {
-                <p>Er is momenteel niet een evenement gepland helaas :(</p>
+                <div class="hero-content">
+                    <h1>Geen aankomende evenementen</h1>
+                    <p>Er zijn momenteel geen geplande evenementen. Kom later terug voor updates!</p>
+                </div>
             }
-        </div>
+        </section>
 
-    </section>
-
-
-    <!-- Agenda Section -->
-    <section class="agenda">
-        <h3>Agenda</h3>
-        <div class="agenda-items">
-            @if (Model.Events.Count != 0)
+        <!-- Upcoming Events Section -->
+        <aside class="upcoming-events">
+            <h2>Aankomende Evenementen</h2>
+            @if (Model.Events != null && Model.Events.Any())
             {
-                @foreach (var eventItem in Model.Events)
-                {
-                    <div class="agenda-item">
-                        @if (!string.IsNullOrEmpty(eventItem.UrlLinkPicture))
-                        {
-                            <img src="@eventItem.UrlLinkPicture" alt="Agenda Image" class="agenda-img">
-                        }
-                        else
-                        {
-                            <img src="https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg" alt="Agenda Image" class="agenda-img">
-                        }
-                        <div class="agenda-details">
-                            <strong>@eventItem.Name</strong>
-                            <br>@eventItem.Description<br>
-                            <small>@eventItem.Date?.ToString("dd-MM-yyyy")</small>
+                <div class="events-list">
+                    @foreach (var eventItem in Model.Events.OrderBy(e => e.Date))
+                    {
+                        <div class="event-card" onclick="highlightEvent('@eventItem.Id')">
+                            <img src="@(eventItem.UrlLinkPicture ?? "https://t4.ftcdn.net/jpg/08/52/93/57/360_F_852935791_pMCeBDdFRTw9VjZbvf1aU1a5tjWtSz8b.jpg")" alt="@eventItem.Name">
+                            <div class="event-info">
+                                <h3>@eventItem.Name</h3>
+                                <p>@eventItem.Date?.ToString("dd-MM-yyyy")</p>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             }
             else
             {
-                <p>
-                    Er staan (verder) geen evenementen op de planning
-                </p>
+                <p>Er staan geen evenementen op de planning.</p>
             }
-        </div>
-        <br>
-        <a asp-controller="Events" asp-action="IndexUser" class="btn btn-primary">Meer evenementen bekijken!</a>
+            <a asp-controller="Events" asp-action="IndexUser" class="btn btn-secondary mt-3">Meer evenementen bekijken</a>
+        </aside>
+
+    </div>
+
+    <!-- About Us Section -->
+    <section class="about-us">
+        <h2>Over Ons</h2>
+        <p>Welkom bij Victuz! Wij zijn een platform dat studenten verbindt en hen helpt hun beste versie te worden door middel van evenementen, forums, en meer.</p>
+
+        <a asp-controller="Home" asp-action="About" class="btn btn-primary mt-3">Meer over ons</a>
     </section>
+
+    <!-- Sponsors Sectie -->
+<section class="sponsors">
+    <h2>Onze Sponsoren</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 sponsor-image">
+                <img src="https://www.shb-online.nl/wp-content/uploads/2019/11/Zuyd-Hogeschool-1.png" alt="Sponsor 1">
+            </div>
+            <div class="col-md-6 sponsor-image">
+                <img src="https://topofminds.com/wp-content/uploads/2016/01/logo_jumbo.png" alt="Sponsor 2">
+            </div>
+            <div class="col-md-6 sponsor-image">
+                <img src="https://welovesnow.nl/wp-content/uploads/2020/12/Logo-SnowWorld-1024x1000-1.png" alt="Sponsor 3">
+            </div>
+            <div class="col-md-6 sponsor-image">
+                <img src="https://th.bing.com/th/id/OIP.G79RrtuQRn6a1x27OzMv2wHaDv?pid=ImgDet&rs=1" alt="Sponsor 4">
+            </div>
+            <!-- Voeg meer sponsoren toe indien nodig -->
+        </div>
+    </div>
+</section>
+
 </div>
 
-    <!-- Sponsors Section -->
-    <section class="sponsors">
-        <h3 style="justify-content: center;">Onze Sponsoren</h3>
-        <div class="sponsor-logos">
-            <!-- Placeholder images for sponsors -->
-            <img src="https://www.shb-online.nl/wp-content/uploads/2019/11/Zuyd-Hogeschool-1.png" alt="Sponsor 1">
-            <img src="https://topofminds.com/wp-content/uploads/2016/01/logo_jumbo.png" alt="Sponsor 2">
-            <img src="https://welovesnow.nl/wp-content/uploads/2020/12/Logo-SnowWorld-1024x1000-1.png" alt="Sponsor 3">
-            <img src="https://th.bing.com/th/id/OIP.G79RrtuQRn6a1x27OzMv2wHaDv?rs=1&pid=ImgDetMain" alt="Sponsor 4">
-        </div>
-    </section>
-</div>
-
-<!-- Optional Scripts Section -->
 @section Scripts {
+    <!-- Include jQuery (required by Slick Carousel) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha384-H+K7U5CnX"
+            crossorigin="anonymous"></script>
+    <!-- Include Slick Carousel JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <!-- Include your existing site.js -->
     <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.sponsor-carousel').slick({
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: true,
+                dots: false,
+                centerMode: true,
+                variableWidth: false,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        });
+
+        function highlightEvent(eventId) {
+            window.location.href = '/Events/DetailsUser/' + eventId;
+        }
+    </script>
 }
+
+
+<style>
+    /* Make the homepage full width */
+    .homepage {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Main Content Wrapper */
+    .main-content {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    }
+
+    /* Hero Section Styles */
+    .hero-event {
+        flex: 2;
+        position: relative;
+        min-height: 400px; /* Ensures a minimum height */
+    }
+
+    .hero-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-details {
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        transform: translateY(-50%);
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .hero-details h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+
+    /* Upcoming Events Styles */
+    .upcoming-events {
+        flex: 1;
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    .upcoming-events h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .events-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-card {
+        width: 100%;
+        margin-bottom: 15px;
+        cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .event-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .event-card .event-info {
+        padding: 10px;
+    }
+
+    .event-card h3 {
+        font-size: 1.2em;
+        margin: 10px 0 5px;
+    }
+
+    .event-card p {
+        margin: 0;
+    }
+
+    /* About Us Section Styles */
+    .about-us {
+        padding: 50px 20px;
+        background-color: #e9ecef;
+        text-align: center;
+    }
+
+    .about-us h2 {
+        margin-bottom: 30px;
+    }
+
+    .about-us h3 {
+        margin-top: 20px;
+    }
+
+    .about-us p {
+        max-width: 800px;
+        margin: 0 auto 20px;
+        line-height: 1.6;
+    }
+
+    /* Sponsors Section Styles */
+    .sponsors {
+    margin-top: 50px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+    .sponsors h2 {
+        margin-bottom: 30px;
+    }
+
+    /* Slick Carousel styles */
+    .sponsor-carousel {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .sponsor-carousel .slick-slide {
+        opacity: 0.5;
+        transition: opacity 0.5s ease;
+    }
+
+    .sponsor-carousel .slick-center {
+        opacity: 1;
+    }
+
+    .sponsor-carousel img {
+        max-height: 150px;
+        margin: 0 auto;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+        color: black;
+    }
+
+    /* Optional: Adjust arrows position */
+    .slick-prev,
+    .slick-next {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Optional: Adjust the fade effect on sides */
+    .sponsor-carousel .slick-slide:not(.slick-center) {
+        filter: grayscale(100%);
+    }
+
+    /* Sponsor Afbeelding Stijlen */
+.sponsor-image {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.sponsor-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: 150px; /* Pas aan indien nodig */
+    object-fit: contain;
+}
+
+    /* Adjust for full screen */
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    
+</style>
+
