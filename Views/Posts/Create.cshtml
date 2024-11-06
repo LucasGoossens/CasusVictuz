@@ -1,7 +1,7 @@
 ﻿@model Casusvictuz.Post
 
 @* // Dit wordt niet gebruikt, dit is de view van abstract class Post.
-// Weghalen idfk? *@
+// Weghalen?*@
 
 @{
     ViewData["Title"] = "Create";
@@ -14,34 +14,34 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">Content</div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
                 <input asp-for="Content" class="form-control" />
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
+                <label asp-for="Date" class="control-label">Tijdstip van plaatsing</label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
+                <label asp-for="UserId" class="control-label">Eigenaar van post</label>
                 <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label">Category</label>
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Maak aan" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Terug</a>
 </div>
 
 @section Scripts {

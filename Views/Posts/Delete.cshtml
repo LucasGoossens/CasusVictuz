@@ -4,33 +4,32 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Weet je zeker dat je deze post wil verwijderen</h3>
 <div>
     <h4>Post</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
+            Content
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Content)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
+            Tijdstip van plaatsing
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
+            EIgenaar van post
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.User.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
+            Category
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Category.Title)
@@ -39,7 +38,7 @@
     
     <form asp-action="DeleteThread">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Verwijder" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug</a>
     </form>
 </div>
