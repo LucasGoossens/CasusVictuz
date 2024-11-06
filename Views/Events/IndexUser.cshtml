@@ -20,7 +20,7 @@
     <!-- Label container with arrow icon -->
     <div class="label-container">
         <label for="check01">
-            <span>Categories</span>
+            <span>Categorieën</span>
             <i class="arrow"></i>
         </label>
     </div>
@@ -35,7 +35,7 @@
         }
     </ul>
     <li class="submenu">
-        <a asp-action="IndexUser" class="btn btn-secondary">Clear Filter</a>
+        <a asp-action="IndexUser" class="btn btn-secondary">Reset Filter</a>
     </li>
 
     <p></p>
@@ -47,10 +47,15 @@
 }
 @if (userId != null)
 {
-    <div>
-        <a asp-action="CreateSuggestion" asp-route-id="@int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)" class="btn btn-primary">Evenement Suggestie Maken</a>
-    </div>
-
+    
+        
+    bool isMember = User.HasClaim("IsMember", "True");
+    if (isMember)
+    {
+        <div>
+            <a asp-action="CreateSuggestion" asp-route-id="@int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)" class="btn btn-primary">Evenement Suggestie Maken</a>
+        </div>
+    }
     <div class="container d-flex flex-row flex-wrap">
         @foreach (var item in Model)
         {

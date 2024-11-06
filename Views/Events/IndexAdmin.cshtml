@@ -18,22 +18,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Starttijd
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Naam
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Beschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Spots)
+                Aantal plaatsen
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                Locatie
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                Categorie
             </th>
             <th></th>
         </tr>
@@ -61,9 +61,9 @@
                     @Html.DisplayFor(modelItem => item.Category.Title)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Pas aan</a> |
                     <a asp-action="DetailsAdmin" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijder</a>
                 </td>
             </tr>
         }
