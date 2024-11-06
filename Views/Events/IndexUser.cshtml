@@ -42,7 +42,10 @@
     <button type="submit" class="btn btn-primary">Zoeken</button>
 </form>
 
-@if (HttpContext.User.Identity.IsAuthenticated)
+@{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+@if (userId != null)
 {
     <div>
         <a asp-action="CreateSuggestion" asp-route-id="@int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)" class="btn btn-primary">Evenement Suggestie Maken</a>
