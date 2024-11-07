@@ -1,40 +1,43 @@
-﻿@using System.Security.Claims
-@using CasusVictuz.VieuwModels;
+@model Casusvictuz.User
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Inloggen";
 }
 
-@model LoginViewModel
+<h1>Welkom Terug!</h1>
 
-<h2>Login</h2>
-<form asp-action="Login" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" id="successMessage">
+        <strong>@TempData["SuccessMessage"]</strong> 
+        <br>Log in om je account te verifiëren.
     </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-    </div>
-    <p></p>
-    <button type="submit" class="btn btn-primary">Login</button>
+}
 
-    <p></p>
-    <p>
-        <a asp-action="Create" class="btn btn-secondary">Create Account</a>
-    </p>
-    <hr>
-    <b>Current logged in user:</b>
-    @{
-        var user = User.FindFirst(ClaimTypes.Name)?.Value;
-    }
-    @if (user != null)
-    {
-        <p>@user</p>
-    }
-    else
-    {
-        <p>No user is logged in</p>
-    }
-</form>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Naam of Email</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Wachtwoord</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Inloggen" class="btn btn-primary" />
+            </div>
+            <div>
+               <a href="/users/create" class="btn btn-success btn-lg mt-4">Wordt nu lid!</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

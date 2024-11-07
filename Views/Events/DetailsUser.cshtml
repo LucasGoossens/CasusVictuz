@@ -1,4 +1,4 @@
-﻿@using CasusVictuz.Models
+@using CasusVictuz.Models
 @using System.Security.Claims
 @model Casusvictuz.Event
 
@@ -6,121 +6,190 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Evenement informatie</h1>
+<div class="event-details-container">
+    <h1>@Model.Name</h1>
 
-<div>
+    <div class="event-header">
+        <div class="event-image">
+            <img src="@Model.UrlLinkPicture" alt="Event Image" />
+        </div>
+        <div class="event-info">
+            <p><strong>Datum:</strong> @(Model.Date.HasValue ? Model.Date.Value.ToString("dd-MM-yyyy") : "N/A")</p>
+            <p><strong>Tijd:</strong> @(Model.Date.HasValue ? Model.Date.Value.ToString("HH:mm") : "N/A")</p>
+            <p><strong>Locatie:</strong> @Html.DisplayFor(model => model.Location)</p>
+            <p><strong>Categorie:</strong> @Html.DisplayFor(model => model.Category.Title)</p>
+        </div>
+    </div>
+
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Evenement
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            Datum Tijd
-        </dt>
-        <dd class="col-sm-10">
-            @(Model.Date.HasValue ? Model.Date.Value.ToString("dd-MM-yyyy") : "N/A")
-        </dd>
-        <dt class="col-sm-2">
-            Tijd
-        </dt>
-        <dd class="col-sm-10">
-            @(Model.Date.HasValue ? Model.Date.Value.ToString("HH:mm") : "N/A")
-        </dd>
-        <dt class="col-sm-2">
-            Beschrijving
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            Aantal plekken voor event
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Spots)
-        </dd>
-        <dt class="col-sm-2">
-            Aantal beschikbare plekken
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                var beschikbarePlekken = Model.Spots - Model.Registrations.Count(); // Bereken beschikbare plekken
-            }
-            @beschikbarePlekken
-        </dd>
-        <dt class="col-sm-2">
-            Locatie
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class="col-sm-2">
-            Categorie
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category.Title)
-        </dd>
-        <dt class="col-sm-2">
-            Organisator
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                var firstOrganizerRegistrations = Model.Registrations.FirstOrDefault(r => r.IsOrganised);
-                var firstOrganizer = firstOrganizerRegistrations?.User?.Name;
 
-                if (!string.IsNullOrEmpty(firstOrganizer))
-                {
-                    @firstOrganizer
-                }
-                else
-                {
-                    <span>onbekend</span>
-                }
-            }
-        </dd>
-    </dl>
-</div>
-<div>
-    @{
-        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (currentUserId == null)
-        {
-            <p>U dient zich in te loggen voor u zich kan inschrijven</p>
+    <div class="event-details">
+        <h3>Beschrijving</h3>
+        <p>@Html.DisplayFor(model => model.Description)</p>
+
+        <h3>Aantal plekken</h3>
+        @{
+            var beschikbarePlekken = Model.Spots - Model.Registrations.Count();
         }
-        else
-        {
-            int loggedInUserId = int.Parse(currentUserId);
+        <p><strong>Beschikbaar:</strong> @beschikbarePlekken</p>
+        <p><strong>Totaal:</strong> @Html.DisplayFor(model => model.Spots)</p>
 
-            bool userIsAlreadyRegistered = Model.Registrations.Any(r => r.UserId == loggedInUserId);
-            bool isMember = User.HasClaim("IsMember", "True");
+        <h3>Organisator</h3>
+        @{
+            var firstOrganizerRegistration = Model.Registrations.FirstOrDefault(r => r.IsOrganised);
+            var firstOrganizer = firstOrganizerRegistration?.User?.Name;
+        }
+        <p>@(string.IsNullOrEmpty(firstOrganizer) ? "Onbekend" : firstOrganizer)</p>
+    </div>
 
-            if (userIsAlreadyRegistered)
+    <div class="registration-section">
+        @{
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
             {
-                <p>Je bent ingeschreven voor dit evenement</p>
+                <p class="login-warning">Log in om je in te schrijven voor dit evenement</p>
             }
-
-            else if (Model.Spots <= Model.Registrations.Count())
-            {
-                <p>Sorry dit evenement is volgeboekt</p>
-            }
-
             else
             {
-                if (!isMember && (Model.Date.Value - DateTime.Now).TotalDays > 7)
+                int loggedInUserId = int.Parse(currentUserId);
+                bool userIsAlreadyRegistered = Model.Registrations.Any(r => r.UserId == loggedInUserId);
+                bool isMember = User.HasClaim("IsMember", "True");
+
+                if (userIsAlreadyRegistered)
                 {
-                    <div>U kunt zich als gast nog niet aanmelden voor dit evenement. </div>
+                    <p class="registered-message">Je bent ingeschreven voor dit evenement 🎉</p>
+                }
+                else if (Model.Spots <= Model.Registrations.Count())
+                {
+                    <p class="full-message">Sorry, dit evenement is volgeboekt 😢</p>
                 }
                 else
                 {
-                    <form asp-action="Register" asp-controller="Events" method="post">
-                        <input type="hidden" name="eventId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-primary">Inschrijven</button>
-                    </form>
+                    if (!isMember && (Model.Date.Value - DateTime.Now).TotalDays > 7)
+                    {
+                        <p class="guest-warning">U kunt zich als gast nog niet aanmelden voor dit evenement.</p>
+                    }
+                    else
+                    {
+                        <form asp-action="Register" asp-controller="Events" method="post" class="registration-form">
+                            <input type="hidden" name="eventId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-primary">Inschrijven</button>
+                        </form>
+                    }
                 }
             }
         }
-    }
-    <a asp-action="IndexUser" class="btn btn-warning">Terug</a>
+    </div>
+
+    <a asp-action="IndexUser" class="btn btn-secondary back-button">Terug</a>
 </div>
+
+<!-- Inline CSS -->
+<style>
+    .event-details-container {
+        width: 90%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .event-details-container h1 {
+        text-align: center;
+        font-size: 2.5em;
+        color: #0a3d62;
+        margin-bottom: 20px;
+    }
+
+    .event-header {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .event-image img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .event-info {
+        font-size: 1.1em;
+        color: #333;
+    }
+
+    .event-info p {
+        margin: 5px 0;
+    }
+
+    .event-details {
+        margin-top: 20px;
+    }
+
+    .event-details h3 {
+        font-size: 1.5em;
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    .event-details p {
+        font-size: 1.1em;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .registration-section {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-warning,
+    .registered-message,
+    .full-message,
+    .guest-warning {
+        font-size: 1.2em;
+        color: #d9534f;
+        font-weight: bold;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .registration-form button {
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: 10px 20px;
+        background-color: #5cb85c;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .registration-form button:hover {
+        background-color: #4cae4c;
+    }
+
+    .back-button {
+        display: block;
+        width: fit-content;
+        margin: 20px auto 0;
+        padding: 10px 20px;
+        background-color: #f0ad4e;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: #ec971f;
+    }
+</style>

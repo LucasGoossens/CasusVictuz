@@ -38,8 +38,8 @@ namespace CasusVictuz.Controllers
                 return View(model);
             }
 
-
-            var user = _context.Users.FirstOrDefault(c => c.Name == model.Name && c.Password == model.Password);
+            var EmailLogin = model.Name;
+            var user = _context.Users.FirstOrDefault(c => (c.Name == model.Name || c.Email == model.Name) && c.Password == model.Password);
 
             if (user != null)
             {
@@ -74,16 +74,58 @@ namespace CasusVictuz.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Password")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name, Email, Password")] User user)
         {
+            // Check if the name or password exceeds 20 characters
+            if (user.Name.Length > 20)
+            {
+                ModelState.AddModelError("Name", "De naam kan niet langer zijn dan 20 tekens");
+                return View(user);
+            }
+
+            if (user.Password.Length > 20)
+            {
+                ModelState.AddModelError("Password", "Het wachtwoord kan niet langer zijn dan 20 tekens");
+                return View(user);
+            }
+
+
+            // Check if the username already exists in the database
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Name == user.Name);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Name", "Deze gebruikersnaam bestaat al");
+                return View(user);
+            }
+
+            if (!user.Email.Contains('@'))
+            {
+                ModelState.AddModelError("Email", "Email is niet valide");
+                return View(user);
+            }
+
+            if (EmailExists(user.Email))
+            {
+                ModelState.AddModelError("Email", "Email is al in gebruik");
+                return View(user);
+            }
+
+
             if (ModelState.IsValid)
             {
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Account aangemaakt! Log in om je account te verifiëren.";
                 return RedirectToAction(nameof(Login));
             }
+
+            // Fallback in case of other validation errors
+            TempData["ErrorMessage"] = "Er is iets fout gegaan. Controleer je invoer en probeer het opnieuw.";
             return View(user);
         }
+
+
         // GET: Users/Logout
         public async Task<IActionResult> Logout()
         {
@@ -112,7 +154,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Password,IsAdmin,IsMember")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,IsAdmin,IsMember")] User user)
         {
             if (id != user.Id)
             {
@@ -145,6 +187,11 @@ namespace CasusVictuz.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        private bool EmailExists(string email)
+        {
+            return _context.Users.Any(e => e.Email == email);
         }
 
 

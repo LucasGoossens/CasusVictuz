@@ -1,38 +1,80 @@
-﻿@model Casusvictuz.User
+@model Casusvictuz.User
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Account Aanmaken";
 }
 
-<h1>Create</h1>
+<h1>Welkom bij Victuz!</h1>
+<p>Creëer je account en krijg exclusieve toegang tot onze evenementen en meer:</p>
+<ul>
+    <li>🌟 Exclusieve toegang – Geniet van evenementen speciaal samengesteld voor leden.</li>
+    <li>🎟 Voorrang bij inschrijving – Reserveer tijdig je plek voor populaire bijeenkomsten.</li>
+    <li>📅 Alles op één plek – Beheer je inschrijvingen en favoriete evenementen overzichtelijk.</li>
+    <li>💬 Deel suggesties – Help mee Victuz te verbeteren door je ideeën met ons te delen.</li>
+</ul>
 
-<h4>User</h4>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-6">
+        <form asp-action="Create" id="registerForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name" class="control-label">Naam</label>
+                <input asp-for="Name" class="form-control" placeholder="Vul je naam in" maxlength="20" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Vul je Email in" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Wachtwoord</label>
+                <input asp-for="Password" class="form-control" placeholder="Maak een wachtwoord" type="password" maxlength="20" id="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label class="control-label">Herhaal wachtwoord</label>
+                <input class="form-control" placeholder="Bevestig wachtwoord" type="password" maxlength="20" id="confirmPassword" />
+                <span class="text-danger" id="confirmPasswordError"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Account aanmaken" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Login">Back</a>
+    <a asp-action="Login">Al een account? Log hier in</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Client-side validation for matching passwords
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                confirmPasswordError.textContent = "Wachtwoorden komen niet overeen.";
+            } else {
+                confirmPasswordError.textContent = "";
+            }
+        });
+    </script>
 }

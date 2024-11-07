@@ -7,22 +7,25 @@
 <h1>Alle gebruikers</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>  <!-- kan weg maar maakt niet uit --!>
+    <a asp-action="Create">Maak nieuwe gebruiker</a>  <!-- kan weg maar maakt niet uit --!>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Naam
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
+                  E-mail
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAdmin)
+                Wachtwoord
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsMember)
+                Is Admin
+            </th>
+            <th>
+                Is lid
             </th>
             <th></th>
         </tr>
@@ -34,6 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Password)
             </td>
             <td>
@@ -43,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.IsMember)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Pas aan</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijder</a>
             </td>
         </tr>
 }

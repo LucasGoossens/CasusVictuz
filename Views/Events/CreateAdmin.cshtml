@@ -5,39 +5,39 @@
 }
 
 
-<h4>Event</h4>
+<h4>Maak event</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateAdmin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
+                <label asp-for="Date" class="control-label">Starttijd</label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Evenement naam</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Beschrijving</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Spots" class="control-label"></label>
+                <label asp-for="Spots" class="control-label">Aantal plaatsen</label>
                 <input asp-for="Spots" class="form-control" />
                 <span asp-validation-for="Spots" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
+                <label asp-for="Location" class="control-label">Locatie</label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label">Catagorie</label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
 
@@ -51,18 +51,18 @@
                 <div id="tagContainer">
                     <input type="text" name="Tags" class="form-control" placeholder="Enter tag" />
                 </div>
-                <button type="button" class="btn btn-secondary" onclick="addTagInput()">Add Tag</button>
+                <button type="button" class="btn btn-secondary" onclick="addTagInput()">Voeg tag toe</button>
 
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Maak aan" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="IndexAdmin">Back to List</a>
+    <a asp-action="IndexAdmin">Terug</a>
 </div>
 
 @section Scripts {

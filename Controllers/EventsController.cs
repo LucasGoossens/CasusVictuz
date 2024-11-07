@@ -10,6 +10,8 @@ using Casusvictuz;
 using System.Security.Claims;
 using CasusVictuz.VieuwModels;
 using CasusVictuz.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CasusVictuz.Controllers
 {
@@ -52,7 +54,7 @@ namespace CasusVictuz.Controllers
 
             return View(await victuzDb.ToListAsync());
         }
-        
+
 
         public async Task<IActionResult> IndexAdmin()
         {
@@ -221,7 +223,7 @@ namespace CasusVictuz.Controllers
 
                 var registration = new Registration
                 {
-                    
+
                     UserId = int.Parse(suggestorUserId),
                     User = null,
                     EventId = @event.Id,
@@ -398,11 +400,59 @@ namespace CasusVictuz.Controllers
             return RedirectToAction("DetailsUser", new { id = eventId });
         }
 
+        [ActionName("RegisterGuest")]
+        public IActionResult RegisterGuest(int eventId, string GuestName)
+        {
+            User newGuest = new User
+            {
+                Name = GuestName,
+                Password = "GUEST",
+                Email = "GUEST@GUEST.NL",
+                IsMember = false,
+                IsGuest = true
+            };
 
-        [ActionName("Unregister")]        
+            _context.Users.Add(newGuest);
+            _context.SaveChanges();
+
+
+            // claims worden de ingelogde gegevens van de gebruiker in opgeslagen (naam en id)
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, newGuest.Name),
+            new Claim(ClaimTypes.NameIdentifier, newGuest.Id.ToString()),
+            new Claim("IsGuest", (bool)newGuest.IsGuest ? "True" : "False"),
+            new Claim("IsMember", newGuest.IsMember ? "True" : "False"),
+            new Claim("IsAdmin", newGuest.IsAdmin ? "True" : "False")
+        };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Claims worden opgeslagen met cookies
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+
+            // Maak een nieuwe registratie aan
+            var newRegistration = new Registration
+            {
+                UserId = newGuest.Id,
+                User = null, // gebruiker word al opgehaald in de controller en opgeslagen met UserId
+                EventId = eventId,
+                Event = null, // event word al opgehaald in de controller en opgeslagen met EventId
+                IsOrganised = false
+            };
+
+            _context.Registrations.Add(newRegistration);
+            _context.SaveChanges();
+
+            return RedirectToAction("DetailsUser", new { id = eventId });
+        }
+
+
+        [ActionName("Unregister")]
         public async Task<IActionResult> UnregisterUserForEvent(int id)
         {
-            System.Diagnostics.Debug.WriteLine(id);            
+            System.Diagnostics.Debug.WriteLine(id);
             var registration = await _context.Registrations.FindAsync(id);
             if (registration != null)
             {

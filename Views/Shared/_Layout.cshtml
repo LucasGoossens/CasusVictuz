@@ -35,6 +35,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">Over Ons</a>
                     </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Member">Lid worden</a>
+                        </li>
                 </ul>
             </div>
             <!-- Account dropdown on the right -->
@@ -77,16 +80,24 @@
     </div>
 
     <footer class="border-top footer">
-        <div class="container">
-            <h5 style="color:white;">Contact</h5>
-            <p>Studentenvereniging Victuz van Zuyd hogeschool ICT-academy</p>
-            <ul>
-                <li>Nieuw Eyckholt 300, 6419 DJ Heerlen</li>
-                <li><span>&#9742;</span> +31 00 000 00 00</li>
-                <li><span>&#9993;</span> Victuz@info.nl</li>
-            </ul>
+    <div class="container text-center">
+        <h5 style="color:white;">Contact</h5>
+        <p>Studentenvereniging Victuz van Zuyd hogeschool ICT-academy</p>
+        <ul style="list-style-type: none; padding: 0;">
+            <li>Nieuw Eyckholt 300, 6419 DJ Heerlen</li>
+            <li><span>&#9742;</span> +31 00 000 00 00</li>
+            <li><span>&#9993;</span> Victuz@info.nl</li>
+        </ul>
+        <div class="social-links">
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="https://static.vecteezy.com/system/resources/previews/023/986/885/non_2x/instagram-logo-instagram-logo-transparent-instagram-icon-transparent-free-free-png.png" alt="Instagram" style="width: 40px; margin-right: 10px;">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="https://static.vecteezy.com/system/resources/previews/023/986/603/non_2x/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" alt="Facebook" style="width: 40px;">
+            </a>
         </div>
-    </footer>
+    </div>
+</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

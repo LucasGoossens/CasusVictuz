@@ -4,50 +4,49 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
 <div>
-    <h4>Event</h4>
+    <h4>Event details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Date)
+            Start evenement
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Date)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Name)
+            Naam evenement
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Description)
+            Beschrijving
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Spots)
+            Aantal plaatsen
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Spots)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Location)
+            Locatie
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Location)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.IsAccepted)
+            Goedgekeurd
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.IsAccepted)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Event.Category)
+            Catagorie
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Category.Title)
@@ -62,7 +61,7 @@
 </div>
 
 <div>
-    <h4>Registered Users</h4>
+    <h4>Geregistreerde gebruikers</h4>
     <ul>
         @foreach (var user in Model.RegisteredUsers)
         {
@@ -72,6 +71,6 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Event.Id">Edit</a> |
-    <a asp-action="IndexAdmin">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Event.Id">Aanpassen</a> |
+    <a asp-action="IndexAdmin">Terug</a>
 </div>

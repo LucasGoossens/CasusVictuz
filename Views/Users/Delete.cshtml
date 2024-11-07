@@ -4,33 +4,37 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Weer je zeker dat je deze gebruiker wilt verwijderen?</h3>
 <div>
-    <h4>User</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Naam
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
+        <dt class="col-sm-2">
+            E-mail
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
+            Wachtwoord
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAdmin)
+            Is admin?
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsAdmin)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsMember)
+            Is lid?
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsMember)
@@ -39,7 +43,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="verwijder" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug</a>
     </form>
 </div>
