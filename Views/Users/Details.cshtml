@@ -1,4 +1,12 @@
 @model Casusvictuz.User
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap CSS and JavaScript (includes popper.js for modals) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 @{
     ViewData["Title"] = "Details";
@@ -10,10 +18,10 @@
     <div class="user-info">
         <dl class="row">
             <dt class="col-sm-3">Naam</dt>
-            <dd class="col-sm-9">@Model.Name</dd> 
+            <dd class="col-sm-9">@Model.Name</dd>
 
-            <dt class="col-sm-3">Emailadres</dt>
-            <dd class="col-sm-9">@Model.Email</dd> 
+            @* <dt class="col-sm-3">Emailadres</dt>
+            <dd class="col-sm-9">@Model.Email</dd>  *@
 
             <dt class="col-sm-3">Status</dt>
             <dd class="col-sm-9">
@@ -31,7 +39,7 @@
                         <span class="status-badge guest">Gast</span>
                     }
                 }
-            </dd> 
+            </dd>
 
             <dt class="col-sm-3">Aantal Posts</dt>
             <dd class="col-sm-9">
@@ -45,7 +53,7 @@
                 {
                     <span class="next-rank">- Nog @postsToNextRank posts voor de volgende rang</span>
                 }
-            </dd>  
+            </dd>
 
             <dt class="col-sm-3">Aantal Registraties</dt>
             <dd class="col-sm-9">
@@ -59,10 +67,80 @@
                 {
                     <span class="next-rank">- Nog @registrationsToNextRank registraties voor de volgende rang</span>
                 }
-            </dd> 
+            </dd>
         </dl>
     </div>
+
+    @if ((bool)Model.IsGuest)
+    {
+        <div class="border p-2 d-flex flex-column card card-body text-center">
+            <h6>U heeft op dit moment een gast account, meld U hier aan om lid te worden</h6>
+            <a class="btn btn-primary align-self-center" data-toggle="modal" data-target="#registerModal">Word lid</a>
+        </div>
+    }
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Word lid</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>@Model.Name</h6>
+                <form asp-action="CreateMemberAccountFromGuestAcc" asp-controller="Users" method="post" id="registerForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        <div id="passwordError" class="text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                        <div id="confirmPasswordError" class="text-danger"></div>
+                    </div>                    
+                    <input type="hidden" id="loggedInUserId" name="loggedInUserId" value="@Model.Id" />
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="return validateAndSubmitForm()">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateAndSubmitForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var passwordError = document.getElementById("passwordError");
+        var confirmPasswordError = document.getElementById("confirmPasswordError");
+
+        passwordError.innerHTML = "";
+        confirmPasswordError.innerHTML = "";
+
+        if (password !== confirmPassword) {
+            confirmPasswordError.innerHTML = "Wachtwoorden komen niet overeen.";
+            return false; 
+        }
+
+        document.getElementById("registerForm").submit(); 
+        return true;
+    }
+
+</script>
+
+
 
 <!-- Inline CSS for styling -->
 <style>
@@ -77,29 +155,29 @@
         font-family: Arial, sans-serif;
     }
 
-    .user-details-container h1 {
-        text-align: center;
-        font-size: 2.4em;
-        color: #0a3d62;
-        margin-bottom: 20px;
-    }
+        .user-details-container h1 {
+            text-align: center;
+            font-size: 2.4em;
+            color: #0a3d62;
+            margin-bottom: 20px;
+        }
 
     .user-info {
         font-size: 1.1em;
         color: #333;
     }
 
-    .user-info dt {
-        font-weight: bold;
-        color: #555;
-        margin-top: 10px;
-    }
+        .user-info dt {
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+        }
 
-    .user-info dd {
-        margin-left: 0;
-        margin-bottom: 10px;
-        color: #666;
-    }
+        .user-info dd {
+            margin-left: 0;
+            margin-bottom: 10px;
+            color: #666;
+        }
 
     .status-badge {
         padding: 5px 10px;
@@ -108,17 +186,17 @@
         color: #fff;
     }
 
-    .status-badge.admin {
-        background-color: #d9534f; /* Red for Administrator */
-    }
+        .status-badge.admin {
+            background-color: #d9534f; /* Red for Administrator */
+        }
 
-    .status-badge.member {
-        background-color: #5cb85c; /* Green for Member */
-    }
+        .status-badge.member {
+            background-color: #5cb85c; /* Green for Member */
+        }
 
-    .status-badge.guest {
-        background-color: #f0ad4e; /* Orange for Guest */
-    }
+        .status-badge.guest {
+            background-color: #f0ad4e; /* Orange for Guest */
+        }
 
     .rank-badge {
         padding: 3px 8px;
