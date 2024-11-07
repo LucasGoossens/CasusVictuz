@@ -1,6 +1,15 @@
 @using System.Security.Claims
 @model IEnumerable<Casusvictuz.Event>
 
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap CSS and JavaScript (includes popper.js for modals) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 @{
     ViewData["Title"] = "Index";
     var categories = ViewData["Categories"] as IEnumerable<string>;
@@ -47,8 +56,7 @@
 }
 @if (userId != null)
 {
-    
-        
+
     bool isMember = User.HasClaim("IsMember", "True");
     if (isMember)
     {
@@ -56,44 +64,54 @@
             <a asp-action="CreateSuggestion" asp-route-id="@int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)" class="btn btn-primary">Evenement Suggestie Maken</a>
         </div>
     }
-    <div class="container d-flex flex-row flex-wrap">
-        @foreach (var item in Model)
-        {
-            <div class="card p-2 m-1" style="width:18rem;">
+}
+<div class="container d-flex flex-row flex-wrap">
+    @foreach (var item in Model)
+    {
+        <div class="card p-2 m-1" style="width:18rem;">
+
+            @{
+                string imgToShow = item.UrlLinkPicture;
+                if (string.IsNullOrEmpty(imgToShow))
+                {
+                    imgToShow = "https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg";
+                }
+            }
+            <img class="card-img-top IndexPicture"
+                 src="@imgToShow"
+                 onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg'"
+                 alt="Afbeelding niet beschikbaar" />
+
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <div class="fw-bold">Datum:</div>
+                <p class="card-text">@(item.Date.HasValue ? item.Date.Value.ToString("dd-MM-yyyy") : "N/A")</p>
+                <p class="card-text">
+                    <div class="fw-bold">Beschikbare plaatsen:</div>
+                    @item.Registrations.Count() / @item.Spots
+                </p>
+                <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
 
                 @{
-                    string imgToShow = item.UrlLinkPicture;
-                    if (string.IsNullOrEmpty(imgToShow))
+                    string buttonToShow = "openRegister";
+
+                    if (item.Spots == item.Registrations.Count())
                     {
-                        imgToShow = "https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg";
+                        buttonToShow = "closedRegister";
                     }
-                }
-                <img class="card-img-top IndexPicture"
-                     src="@imgToShow"
-                     onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/8e/07/80/8e078013204d0cc9876e9edbb1fd3f85.jpg'"
-                     alt="Afbeelding niet beschikbaar" />
 
-                <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <div class="fw-bold">Datum:</div>
-                    <p class="card-text">@(item.Date.HasValue ? item.Date.Value.ToString("dd-MM-yyyy") : "N/A")</p>
-                    <p class="card-text">
-                        <div class="fw-bold">Beschikbare plaatsen:</div>
-                        @item.Registrations.Count() / @item.Spots
-                    </p>
-                    <a asp-action="DetailsUser" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    int loggedInUserId;
 
-                    @{
-                        string buttonToShow = "openRegister";
-
-                        if (item.Spots == item.Registrations.Count())
-                        {
-                            buttonToShow = "closedRegister";
-                        }
-
-                        int loggedInUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
+                    if (string.IsNullOrEmpty(userIdClaim))
+                    {
+                        buttonToShow = "guestOpenRegister";
+                        // guest event signup hier?
+                    }
+                    else
+                    {
+                        loggedInUserId = int.Parse(userIdClaim);
                         foreach (var registration in item.Registrations)
                         {
                             if (registration.UserId == loggedInUserId)
@@ -103,34 +121,91 @@
                             }
                         }
                     }
+                }
 
-                    @if (buttonToShow == "closedRegister")
-                    {
-                        <a href="#" class="btn btn-secondary" disabled>Gesloten</a>
-                    }
-                    else if (buttonToShow == "openRegister")
-                    {
-                        <a asp-action="Register" asp-controller="Events" asp-route-eventId="@item.Id" class="btn btn-primary">Inschrijven</a>
-                    }
-                    else if (buttonToShow == "alreadyRegistered")
+                @if (buttonToShow == "closedRegister")
+                {
+                    <a href="#" class="btn btn-secondary" disabled>Gesloten</a>
+                }
+                else if (buttonToShow == "openRegister")
+                {
+                    <a asp-action="Register" asp-controller="Events" asp-route-eventId="@item.Id" class="btn btn-primary">Inschrijven</a>
+                }
+                else if (buttonToShow == "guestOpenRegister")
+                {
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Inschrijven als gast
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Inschrijven als gast</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form asp-action="RegisterGuest" asp-controller="Events" asp-route-eventId="@item.Id" method="post">
+                                        <div class="form-group">
+                                            <label class="control-label">Naam</label>
+                                            <input class="form-control" name="GuestName" />
+                                            <span class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="submit" value="Schrijf in als gast" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Nog geen lid?</h5>
+                                    <div>Maak nu een account aan om je inschrijvingen bij te houden en deel te nemen aan de Victuz community!</div>
+                                    <a href="/home/member" class="btn btn-primary">Bekijk voordelen</a>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                }
+                else if (buttonToShow == "alreadyRegistered")
+                {
+                    var loggedInUserCheck = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    if (!string.IsNullOrEmpty(loggedInUserCheck))
                     {
                         var registrationToCheck = item.Registrations.FirstOrDefault(r => r.IsOrganised);
-                        if (registrationToCheck != null && registrationToCheck.UserId == loggedInUserId)
+                        if (registrationToCheck != null && registrationToCheck.UserId == int.Parse(loggedInUserCheck))
                         {
                             <a class="btn btn-secondary" disabled>Organisator</a>
                         }
                         else
                         {
-                            int registrationId = item.Registrations.FirstOrDefault(r => r.UserId == loggedInUserId).Id;
+                            int registrationId = item.Registrations.FirstOrDefault(r => r.UserId == int.Parse(loggedInUserCheck)).Id;
                             <a asp-action="Unregister" asp-controller="Events" asp-route-id="@registrationId" class="btn btn-danger">Uitschrijven</a>
                         }
                     }
-                </div>
+                    else
+                    {
+                        int registrationId = item.Registrations.FirstOrDefault(r => r.UserId == int.Parse(loggedInUserCheck)).Id;
+                        <a asp-action="Unregister" asp-controller="Events" asp-route-id="@registrationId" class="btn btn-danger">Uitschrijven</a>
+                    }
+                }
             </div>
-        }
-    </div>
-}
-else
+        </div>
+    }
+</div>
+
+@if (userId == null)
 {
     <!-- Code for Non-Logged-in User -->
     <div class="container text-center mt-5">
