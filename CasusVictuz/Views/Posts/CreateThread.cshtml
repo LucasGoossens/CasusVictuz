@@ -1,0 +1,64 @@
+@model Casusvictuz.Thread
+
+@{
+    ViewData["Title"] = "Nieuw Onderwerp Maken";
+}
+
+<div class="container mt-5">
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4">Nieuw Onderwerp Maken</h1>
+        <p class="lead">Start een nieuwe discussie en deel jouw ideeën of vragen met de gemeenschap.</p>
+    </div>
+
+
+    <!-- Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm p-4">
+                <h4 class="mb-4 text-center text-primary">Onderwerp Informatie</h4>
+                
+                <form asp-action="CreateThread">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <!-- Title Field -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Title" class="form-label fw-bold">Titel</label>
+                        <input asp-for="Title" class="form-control form-control-lg" placeholder="Voer de titel van het onderwerp in" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <!-- Content Field -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Content" class="form-label fw-bold">Inhoud</label>
+                        <textarea asp-for="Content" class="form-control" rows="6" placeholder="Beschrijf het onderwerp gedetailleerd..."></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+
+                    <!-- Category Field -->
+                    <div class="form-group mb-4">
+                        <label asp-for="CategoryId" class="form-label fw-bold">Categorie</label>
+                        <select asp-for="CategoryId" class="form-select form-select-lg" asp-items="ViewBag.CategoryId">
+                            <option selected>-- Kies een categorie --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Onderwerp Aanmaken</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Link -->
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="text-secondary"><i class="fas fa-arrow-left me-1"></i> Terug</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

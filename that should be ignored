@@ -1,0 +1,451 @@
+[33mcommit fb0d9c373fd42cdfe2bfa8f4c9ec1bb87626fa1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mDev-Jeay[m[33m)[m
+Author: Jeay <jeay2001@gmail.com>
+Date:   Thu Nov 7 18:54:35 2024 +0100
+
+    File restructure attempt 2
+
+A	.gitignore
+M	.vs/CasusVictuz/CopilotIndices/0.2.1653.9816/CodeChunks.db
+M	.vs/CasusVictuz/CopilotIndices/0.2.1653.9816/SemanticSymbols.db
+M	.vs/CasusVictuz/CopilotIndices/0.2.1653.9816/SemanticSymbols.db-shm
+M	.vs/CasusVictuz/CopilotIndices/0.2.1653.9816/SemanticSymbols.db-wal
+M	.vs/CasusVictuz/DesignTimeBuild/.dtbcache.v2
+D	.vs/CasusVictuz/FileContentIndex/61248d67-1a27-4fd1-a14f-773424380fc8.vsidx
+D	.vs/CasusVictuz/FileContentIndex/c2f2d62e-fd63-4d1b-b7ab-1698db796e03.vsidx
+D	.vs/CasusVictuz/FileContentIndex/c3ac7442-827a-45ab-9249-3e5c71c2ab2e.vsidx
+D	.vs/CasusVictuz/FileContentIndex/e8a4502c-07aa-48d6-b516-eb00aa6f716d.vsidx
+D	.vs/CasusVictuz/FileContentIndex/f708ad0c-6f6b-4e6a-bba7-7d7c8b4a2c76.vsidx
+D	.vs/CasusVictuz/copilot-chat/1dd12e48/sessions/55e0e34a-138e-40b3-b2d1-a91ff7bc9e37
+D	.vs/CasusVictuz/copilot-chat/1dd12e48/sessions/ef3921c2-2408-4877-9336-8f2709a6cff1
+M	.vs/CasusVictuz/v17/.futdcache.v2
+M	.vs/CasusVictuz/v17/.suo
+M	.vs/CasusVictuz/v17/DocumentLayout.backup.json
+M	.vs/CasusVictuz/v17/DocumentLayout.json
+D	.vs/Code Casus/v17/.wsuo
+D	.vs/Code Casus/v17/DocumentLayout.json
+M	.vs/ProjectEvaluation/casusvictuz.metadata.v9.bin
+M	.vs/ProjectEvaluation/casusvictuz.projects.v9.bin
+M	.vs/ProjectEvaluation/casusvictuz.strings.v9.bin
+D	.vs/VSWorkspaceState.json
+D	CasusVictuz.csproj.user
+A	CasusVictuz.sln
+R100	CasusVictuz.csproj	CasusVictuz/CasusVictuz.csproj
+R100	Controllers/CategoriesController.cs	CasusVictuz/Controllers/CategoriesController.cs
+R100	Controllers/EventsController.cs	CasusVictuz/Controllers/EventsController.cs
+R100	Controllers/HomeController.cs	CasusVictuz/Controllers/HomeController.cs
+R100	Controllers/PostsController.cs	CasusVictuz/Controllers/PostsController.cs
+R100	Controllers/RegistrationsController.cs	CasusVictuz/Controllers/RegistrationsController.cs
+R100	Controllers/TagsController.cs	CasusVictuz/Controllers/TagsController.cs
+R100	Controllers/UsersController.cs	CasusVictuz/Controllers/UsersController.cs
+R100	Data/VictuzDb.cs	CasusVictuz/Data/VictuzDb.cs
+R100	Migrations/20241031175855_makeDb.Designer.cs	CasusVictuz/Migrations/20241031175855_makeDb.Designer.cs
+R100	Migrations/20241031175855_makeDb.cs	CasusVictuz/Migrations/20241031175855_makeDb.cs
+R100	Migrations/20241106174825_add-IsGuest.Designer.cs	CasusVictuz/Migrations/20241106174825_add-IsGuest.Designer.cs
+R100	Migrations/20241106174825_add-IsGuest.cs	CasusVictuz/Migrations/20241106174825_add-IsGuest.cs
+R100	Migrations/20241107091618_Email-toevoegen.Designer.cs	CasusVictuz/Migrations/20241107091618_Email-toevoegen.Designer.cs
+R100	Migrations/20241107091618_Email-toevoegen.cs	CasusVictuz/Migrations/20241107091618_Email-toevoegen.cs
+R100	Migrations/20241107161348_SeedSuggestie2.Designer.cs	CasusVictuz/Migrations/20241107161348_SeedSuggestie2.Designer.cs
+R100	Migrations/20241107161348_SeedSuggestie2.cs	CasusVictuz/Migrations/20241107161348_SeedSuggestie2.cs
+R100	Migrations/VictuzDbModelSnapshot.cs	CasusVictuz/Migrations/VictuzDbModelSnapshot.cs
+R100	Models/Category.cs	CasusVictuz/Models/Category.cs
+R100	Models/Comment.cs	CasusVictuz/Models/Comment.cs
+R100	Models/ErrorViewModel.cs	CasusVictuz/Models/ErrorViewModel.cs
+R100	Models/Event.cs	CasusVictuz/Models/Event.cs
+R100	Models/Post.cs	CasusVictuz/Models/Post.cs
+R100	Models/Registration.cs	CasusVictuz/Models/Registration.cs
+R100	Models/Tag.cs	CasusVictuz/Models/Tag.cs
+R100	Models/Thread.cs	CasusVictuz/Models/Thread.cs
+R100	Models/User.cs	CasusVictuz/Models/User.cs
+R100	Program.cs	CasusVictuz/Program.cs
+R100	Properties/launchSettings.json	CasusVictuz/Properties/launchSettings.json
+R100	VieuwModels/DetailsEventViewModel.cs	CasusVictuz/VieuwModels/DetailsEventViewModel.cs
+R100	VieuwModels/HomeViewModel.cs	CasusVictuz/VieuwModels/HomeViewModel.cs
+R100	VieuwModels/LoginViewModel.cs	CasusVictuz/VieuwModels/LoginViewModel.cs
+R100	Views/Categories/Create.cshtml	CasusVictuz/Views/Categories/Create.cshtml
+R100	Views/Categories/Delete.cshtml	CasusVictuz/Views/Categories/Delete.cshtml
+R100	Views/Categories/Details.cshtml	CasusVictuz/Views/Categories/Details.cshtml
+R100	Views/Categories/Edit.cshtml	CasusVictuz/Views/Categories/Edit.cshtml
+R100	Views/Categories/Index.cshtml	CasusVictuz/Views/Categories/Index.cshtml
+R100	Views/Events/Create.cshtml	CasusVictuz/Views/Events/Create.cshtml
+R100	Views/Events/CreateAdmin.cshtml	CasusVictuz/Views/Events/CreateAdmin.cshtml
+R100	Views/Events/CreateSuggestion.cshtml	CasusVictuz/Views/Events/CreateSuggestion.cshtml
+R100	Views/Events/Delete.cshtml	CasusVictuz/Views/Events/Delete.cshtml
+R100	Views/Events/DetailsAdmin.cshtml	CasusVictuz/Views/Events/DetailsAdmin.cshtml
+R100	Views/Events/DetailsUser.cshtml	CasusVictuz/Views/Events/DetailsUser.cshtml
+R100	Views/Events/Edit.cshtml	CasusVictuz/Views/Events/Edit.cshtml
+R100	Views/Events/IndexAdmin.cshtml	CasusVictuz/Views/Events/IndexAdmin.cshtml
+R100	Views/Events/IndexUser.cshtml	CasusVictuz/Views/Events/IndexUser.cshtml
+R100	Views/Events/SuggestionIndex.cshtml	CasusVictuz/Views/Events/SuggestionIndex.cshtml
+R100	Views/Home/About.cshtml	CasusVictuz/Views/Home/About.cshtml
+R100	Views/Home/Index.cshtml	CasusVictuz/Views/Home/Index.cshtml
+R100	Views/Home/Member.cshtml	CasusVictuz/Views/Home/Member.cshtml
+R100	Views/Home/Privacy.cshtml	CasusVictuz/Views/Home/Privacy.cshtml
+R100	Views/Posts/Create.cshtml	CasusVictuz/Views/Posts/Create.cshtml
+R100	Views/Posts/CreateThread.cshtml	CasusVictuz/Views/Posts/CreateThread.cshtml
+R100	Views/Posts/Delete.cshtml	CasusVictuz/Views/Posts/Delete.cshtml
+R100	Views/Posts/Details.cshtml	CasusVictuz/Views/Posts/Details.cshtml
+R100	Views/Posts/Edit.cshtml	CasusVictuz/Views/Posts/Edit.cshtml
+R100	Views/Posts/Index.cshtml	CasusVictuz/Views/Posts/Index.cshtml
+R100	Views/Posts/_CommentTree.cshtml	CasusVictuz/Views/Posts/_CommentTree.cshtml
+R100	Views/Registrations/Delete.cshtml	CasusVictuz/Views/Registrations/Delete.cshtml
+R100	Views/Registrations/Details.cshtml	CasusVictuz/Views/Registrations/Details.cshtml
+R100	Views/Registrations/Index.cshtml	CasusVictuz/Views/Registrations/Index.cshtml
+R100	Views/Shared/Error.cshtml	CasusVictuz/Views/Shared/Error.cshtml
+R100	Views/Shared/_Layout.cshtml	CasusVictuz/Views/Shared/_Layout.cshtml
+R100	Views/Shared/_Layout.cshtml.css	CasusVictuz/Views/Shared/_Layout.cshtml.css
+R100	Views/Shared/_ValidationScriptsPartial.cshtml	CasusVictuz/Views/Shared/_ValidationScriptsPartial.cshtml
+R100	Views/Tags/Create.cshtml	CasusVictuz/Views/Tags/Create.cshtml
+R100	Views/Tags/Delete.cshtml	CasusVictuz/Views/Tags/Delete.cshtml
+R100	Views/Tags/Details.cshtml	CasusVictuz/Views/Tags/Details.cshtml
+R100	Views/Tags/Edit.cshtml	CasusVictuz/Views/Tags/Edit.cshtml
+R100	Views/Tags/Index.cshtml	CasusVictuz/Views/Tags/Index.cshtml
+R100	Views/Users/AllUsers.cshtml	CasusVictuz/Views/Users/AllUsers.cshtml
+R100	Views/Users/Create.cshtml	CasusVictuz/Views/Users/Create.cshtml
+R100	Views/Users/Delete.cshtml	CasusVictuz/Views/Users/Delete.cshtml
+R100	Views/Users/Details.cshtml	CasusVictuz/Views/Users/Details.cshtml
+R100	Views/Users/Edit.cshtml	CasusVictuz/Views/Users/Edit.cshtml
+R100	Views/Users/Login.cshtml	CasusVictuz/Views/Users/Login.cshtml
+R100	Views/_ViewImports.cshtml	CasusVictuz/Views/_ViewImports.cshtml
+R100	Views/_ViewStart.cshtml	CasusVictuz/Views/_ViewStart.cshtml
+R100	appsettings.Development.json	CasusVictuz/appsettings.Development.json
+R100	appsettings.json	CasusVictuz/appsettings.json
+R100	wwwroot/css/CasusVictuzStyleSheetFix.css	CasusVictuz/wwwroot/css/CasusVictuzStyleSheetFix.css
+R100	wwwroot/css/site.css	CasusVictuz/wwwroot/css/site.css
+R100	wwwroot/favicon.ico	CasusVictuz/wwwroot/favicon.ico
+R100	wwwroot/js/site.js	CasusVictuz/wwwroot/js/site.js
+R100	wwwroot/lib/bootstrap/LICENSE	CasusVictuz/wwwroot/lib/bootstrap/LICENSE
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css
+R100	wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map	CasusVictuz/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.min.js	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js
+R100	wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map	CasusVictuz/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map
+R100	wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt	CasusVictuz/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt
+R100	wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js	CasusVictuz/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js
+R100	wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js	CasusVictuz/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js
+R100	wwwroot/lib/jquery-validation/LICENSE.md	CasusVictuz/wwwroot/lib/jquery-validation/LICENSE.md
+R100	wwwroot/lib/jquery-validation/dist/additional-methods.js	CasusVictuz/wwwroot/lib/jquery-validation/dist/additional-methods.js
+R100	wwwroot/lib/jquery-validation/dist/additional-methods.min.js	CasusVictuz/wwwroot/lib/jquery-validation/dist/additional-methods.min.js
+R100	wwwroot/lib/jquery-validation/dist/jquery.validate.js	CasusVictuz/wwwroot/lib/jquery-validation/dist/jquery.validate.js
+R100	wwwroot/lib/jquery-validation/dist/jquery.validate.min.js	CasusVictuz/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js
+R100	wwwroot/lib/jquery/LICENSE.txt	CasusVictuz/wwwroot/lib/jquery/LICENSE.txt
+R100	wwwroot/lib/jquery/dist/jquery.js	CasusVictuz/wwwroot/lib/jquery/dist/jquery.js
+R100	wwwroot/lib/jquery/dist/jquery.min.js	CasusVictuz/wwwroot/lib/jquery/dist/jquery.min.js
+R100	wwwroot/lib/jquery/dist/jquery.min.map	CasusVictuz/wwwroot/lib/jquery/dist/jquery.min.map
+A	CasusVictuz_Api/CasusVictuz_Api.csproj
+A	CasusVictuz_Api/CasusVictuz_Api.http
+A	CasusVictuz_Api/Controllers/CategoriesController.cs
+A	CasusVictuz_Api/Controllers/EventsController.cs
+A	CasusVictuz_Api/Controllers/WeatherForecastController.cs
+A	CasusVictuz_Api/Program.cs
+A	CasusVictuz_Api/Properties/launchSettings.json
+A	CasusVictuz_Api/WeatherForecast.cs
+R100	bin/Debug/net8.0/appsettings.Development.json	CasusVictuz_Api/appsettings.Development.json
+A	CasusVictuz_Api/appsettings.json
+D	bin/Debug/net8.0/Azure.Core.dll
+D	bin/Debug/net8.0/Azure.Identity.dll
+D	bin/Debug/net8.0/CasusVictuz.deps.json
+D	bin/Debug/net8.0/CasusVictuz.dll
+D	bin/Debug/net8.0/CasusVictuz.exe
+D	bin/Debug/net8.0/CasusVictuz.pdb
+D	bin/Debug/net8.0/CasusVictuz.runtimeconfig.json
+D	bin/Debug/net8.0/CasusVictuz.staticwebassets.runtime.json
+D	bin/Debug/net8.0/Humanizer.dll
+D	bin/Debug/net8.0/Microsoft.AspNetCore.Razor.Language.dll
+D	bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
+D	bin/Debug/net8.0/Microsoft.Build.Framework.dll
+D	bin/Debug/net8.0/Microsoft.Build.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.AnalyzerUtilities.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.Features.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.Elfie.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.Features.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.Razor.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.Scripting.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.Workspaces.dll
+D	bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
+D	bin/Debug/net8.0/Microsoft.Data.SqlClient.dll
+D	bin/Debug/net8.0/Microsoft.DiaSymReader.dll
+D	bin/Debug/net8.0/Microsoft.DotNet.Scaffolding.Shared.dll
+D	bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+D	bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Design.dll
+D	bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+D	bin/Debug/net8.0/Microsoft.EntityFrameworkCore.SqlServer.dll
+D	bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.DependencyModel.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
+D	bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+D	bin/Debug/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
+D	bin/Debug/net8.0/Microsoft.Identity.Client.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+D	bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+D	bin/Debug/net8.0/Microsoft.NET.StringTools.dll
+D	bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGeneration.dll
+D	bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+D	bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
+D	bin/Debug/net8.0/Mono.TextTemplating.dll
+D	bin/Debug/net8.0/Newtonsoft.Json.dll
+D	bin/Debug/net8.0/NuGet.Common.dll
+D	bin/Debug/net8.0/NuGet.Configuration.dll
+D	bin/Debug/net8.0/NuGet.DependencyResolver.Core.dll
+D	bin/Debug/net8.0/NuGet.Frameworks.dll
+D	bin/Debug/net8.0/NuGet.LibraryModel.dll
+D	bin/Debug/net8.0/NuGet.Packaging.dll
+D	bin/Debug/net8.0/NuGet.ProjectModel.dll
+D	bin/Debug/net8.0/NuGet.Protocol.dll
+D	bin/Debug/net8.0/NuGet.Versioning.dll
+D	bin/Debug/net8.0/System.CodeDom.dll
+D	bin/Debug/net8.0/System.Composition.AttributedModel.dll
+D	bin/Debug/net8.0/System.Composition.Convention.dll
+D	bin/Debug/net8.0/System.Composition.Hosting.dll
+D	bin/Debug/net8.0/System.Composition.Runtime.dll
+D	bin/Debug/net8.0/System.Composition.TypedParts.dll
+D	bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+D	bin/Debug/net8.0/System.Drawing.Common.dll
+D	bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+D	bin/Debug/net8.0/System.Memory.Data.dll
+D	bin/Debug/net8.0/System.Reflection.MetadataLoadContext.dll
+D	bin/Debug/net8.0/System.Runtime.Caching.dll
+D	bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
+D	bin/Debug/net8.0/System.Security.Permissions.dll
+D	bin/Debug/net8.0/System.Windows.Extensions.dll
+D	bin/Debug/net8.0/af/Humanizer.resources.dll
+D	bin/Debug/net8.0/appsettings.json
+D	bin/Debug/net8.0/ar/Humanizer.resources.dll
+D	bin/Debug/net8.0/az/Humanizer.resources.dll
+D	bin/Debug/net8.0/bg/Humanizer.resources.dll
+D	bin/Debug/net8.0/bn-BD/Humanizer.resources.dll
+D	bin/Debug/net8.0/cs/Humanizer.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/da/Humanizer.resources.dll
+D	bin/Debug/net8.0/de/Humanizer.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/dotnet-aspnet-codegenerator-design.dll
+D	bin/Debug/net8.0/el/Humanizer.resources.dll
+D	bin/Debug/net8.0/es/Humanizer.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/fa/Humanizer.resources.dll
+D	bin/Debug/net8.0/fi-FI/Humanizer.resources.dll
+D	bin/Debug/net8.0/fr-BE/Humanizer.resources.dll
+D	bin/Debug/net8.0/fr/Humanizer.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/he/Humanizer.resources.dll
+D	bin/Debug/net8.0/hr/Humanizer.resources.dll
+D	bin/Debug/net8.0/hu/Humanizer.resources.dll
+D	bin/Debug/net8.0/hy/Humanizer.resources.dll
+D	bin/Debug/net8.0/id/Humanizer.resources.dll
+D	bin/Debug/net8.0/is/Humanizer.resources.dll
+D	bin/Debug/net8.0/it/Humanizer.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/it/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/ja/Humanizer.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/ko-KR/Humanizer.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/ku/Humanizer.resources.dll
+D	bin/Debug/net8.0/lv/Humanizer.resources.dll
+D	bin/Debug/net8.0/ms-MY/Humanizer.resources.dll
+D	bin/Debug/net8.0/mt/Humanizer.resources.dll
+D	bin/Debug/net8.0/nb-NO/Humanizer.resources.dll
+D	bin/Debug/net8.0/nb/Humanizer.resources.dll
+D	bin/Debug/net8.0/nl/Humanizer.resources.dll
+D	bin/Debug/net8.0/pl/Humanizer.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/pt/Humanizer.resources.dll
+D	bin/Debug/net8.0/ro/Humanizer.resources.dll
+D	bin/Debug/net8.0/ru/Humanizer.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll
+D	bin/Debug/net8.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+D	bin/Debug/net8.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+D	bin/Debug/net8.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+D	bin/Debug/net8.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Data.SqlClient.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Drawing.Common.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Security.Cryptography.ProtectedData.dll
+D	bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
+D	bin/Debug/net8.0/sk/Humanizer.resources.dll
+D	bin/Debug/net8.0/sl/Humanizer.resources.dll
+D	bin/Debug/net8.0/sr-Latn/Humanizer.resources.dll
+D	bin/Debug/net8.0/sr/Humanizer.resources.dll
+D	bin/Debug/net8.0/sv/Humanizer.resources.dll
+D	bin/Debug/net8.0/th-TH/Humanizer.resources.dll
+D	bin/Debug/net8.0/tr/Humanizer.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/uk/Humanizer.resources.dll
+D	bin/Debug/net8.0/uz-Cyrl-UZ/Humanizer.resources.dll
+D	bin/Debug/net8.0/uz-Latn-UZ/Humanizer.resources.dll
+D	bin/Debug/net8.0/vi/Humanizer.resources.dll
+D	bin/Debug/net8.0/zh-CN/Humanizer.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Humanizer.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Humanizer.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Features.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Features.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D	bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
+D	obj/CasusVictuz.csproj.nuget.dgspec.json
+D	obj/CasusVictuz.csproj.nuget.g.props
+D	obj/CasusVictuz.csproj.nuget.g.targets
+D	obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+D	obj/Debug/net8.0/ApiEndpoints.json
+D	obj/Debug/net8.0/CasusVic.FC90F50F.Up2Date
+D	obj/Debug/net8.0/CasusVictuz.AssemblyInfo.cs
+D	obj/Debug/net8.0/CasusVictuz.AssemblyInfoInputs.cache
+D	obj/Debug/net8.0/CasusVictuz.GeneratedMSBuildEditorConfig.editorconfig
+D	obj/Debug/net8.0/CasusVictuz.GlobalUsings.g.cs
+D	obj/Debug/net8.0/CasusVictuz.MvcApplicationPartsAssemblyInfo.cache
+D	obj/Debug/net8.0/CasusVictuz.RazorAssemblyInfo.cache
+D	obj/Debug/net8.0/CasusVictuz.RazorAssemblyInfo.cs
+D	obj/Debug/net8.0/CasusVictuz.assets.cache
+D	obj/Debug/net8.0/CasusVictuz.csproj.AssemblyReference.cache
+D	obj/Debug/net8.0/CasusVictuz.csproj.CoreCompileInputs.cache
+D	obj/Debug/net8.0/CasusVictuz.csproj.FileListAbsolute.txt
+D	obj/Debug/net8.0/CasusVictuz.dll
+D	obj/Debug/net8.0/CasusVictuz.genruntimeconfig.cache
+D	obj/Debug/net8.0/CasusVictuz.pdb
+D	obj/Debug/net8.0/CasusVictuz.sourcelink.json
+D	obj/Debug/net8.0/apphost.exe
+D	obj/Debug/net8.0/ref/CasusVictuz.dll
+D	obj/Debug/net8.0/refint/CasusVictuz.dll
+D	obj/Debug/net8.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
+D	obj/Debug/net8.0/scopedcss/bundle/CasusVictuz.styles.css
+D	obj/Debug/net8.0/scopedcss/projectbundle/CasusVictuz.bundle.scp.css
+D	obj/Debug/net8.0/staticwebassets.build.json
+D	obj/Debug/net8.0/staticwebassets.development.json
+D	obj/Debug/net8.0/staticwebassets.pack.json
+D	obj/Debug/net8.0/staticwebassets/msbuild.CasusVictuz.Microsoft.AspNetCore.StaticWebAssets.props
+D	obj/Debug/net8.0/staticwebassets/msbuild.build.CasusVictuz.props
+D	obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.CasusVictuz.props
+D	obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.CasusVictuz.props
+D	obj/project.assets.json
+D	obj/project.nuget.cache

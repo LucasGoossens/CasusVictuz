@@ -1,0 +1,107 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CasusVictuz</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/CasusVictuzStyleSheetFix.css" asp-append-version="true" />
+
+
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm" style="background-color: #2B6C77; border-bottom: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div class="container-fluid">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="https://i.ibb.co/fxyCpDy/Screenshot-2024-09-12-at-12-42-51.png" alt="Logo"
+                          style="height: 120px; width: auto;">
+            </a>
+            <!-- Navbar items in the middle -->
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Events" asp-action="IndexUser">Evenementen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Posts" asp-action="Index">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">Over Ons</a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Member">Lid worden</a>
+                        </li>
+                </ul>
+            </div>
+            <!-- Account dropdown on the right -->
+            <div class="d-flex">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://i.ibb.co/jRWYnxg/avatar-icon-white.png" alt="Account" style="height: 40px; width: auto;">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                            @{var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            if (userId != null)
+                            {
+                            int currentUserId = int.Parse(userId);
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@currentUserId">Informatie</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Registrations" asp-action="Index">Mijn inschrijvingen</a></li>
+                                }
+                            }
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Login">Log In</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Logout">Log Out</a></li>
+                        <!-- Admin functions (visible only if user is admin) -->
+                        @if (User.HasClaim("IsAdmin", "True"))
+                        {
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Events" asp-action="IndexAdmin">Evenement</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Index">Categorieën</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="AllUsers">Leden</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Locations" asp-action="">Locaties</a></li>
+                        }
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+    <div class="container text-center">
+        <h5 style="color:white;">Contact</h5>
+        <p>Studentenvereniging Victuz van Zuyd hogeschool ICT-academy</p>
+        <ul style="list-style-type: none; padding: 0;">
+            <li>Nieuw Eyckholt 300, 6419 DJ Heerlen</li>
+            <li><span>&#9742;</span> +31 00 000 00 00</li>
+            <li><span>&#9993;</span> Victuz@info.nl</li>
+        </ul>
+        <div class="social-links">
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="https://static.vecteezy.com/system/resources/previews/023/986/885/non_2x/instagram-logo-instagram-logo-transparent-instagram-icon-transparent-free-free-png.png" alt="Instagram" style="width: 40px; margin-right: 10px;">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="https://static.vecteezy.com/system/resources/previews/023/986/603/non_2x/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" alt="Facebook" style="width: 40px;">
+            </a>
+        </div>
+    </div>
+</footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

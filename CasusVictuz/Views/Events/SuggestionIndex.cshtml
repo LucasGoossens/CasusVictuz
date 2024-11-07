@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Casusvictuz.Event>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Alle huidige suggesties</h1>
+
+<p>
+    <a asp-action="IndexAdmin">Bekijk alle geplande evenementen</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datum
+            </th>
+            <th>
+                Evenement
+            </th>
+            <th>
+                Beschrijving
+            </th>
+            <th>
+                Plaatsen
+            </th>
+            <th>
+                Locatie
+            </th>
+            <th>
+                Catagory
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Spots)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Title)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Goedkeuren</a> |
+                    <a asp-action="DetailsAdmin" asp-route-id="@item.Id">Bekijken</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Afkeuren</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

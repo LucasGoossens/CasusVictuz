@@ -1,0 +1,82 @@
+﻿@model Casusvictuz.Event
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4>Maak event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAdmin">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Starttijd</label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Evenement naam</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Beschrijving</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Spots" class="control-label">Aantal plaatsen</label>
+                <input asp-for="Spots" class="form-control" />
+                <span asp-validation-for="Spots" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationId" class="control-label">Location</label>
+                <select asp-for="LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label">Catagorie</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UrlLinkPicture" class="control-label">Url-link afbeelding (niet verplicht)</label>
+                <input asp-for="UrlLinkPicture" class="form-control" />
+                <span asp-validation-for="UrlLinkPicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Tags" class="control-label">Tags</label>
+                <div id="tagContainer">
+                    <input type="text" name="Tags" class="form-control" placeholder="Enter tag" />
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addTagInput()">Voeg tag toe</button>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Maak aan" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="IndexAdmin">Terug</a>
+</div>
+
+@section Scripts {
+    <script>
+        function addTagInput() {
+            var container = document.getElementById("tagContainer");
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "Tags";
+            input.className = "form-control";
+            input.placeholder = "Enter tag";
+            container.appendChild(input);
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

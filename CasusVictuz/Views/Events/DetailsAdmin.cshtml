@@ -1,0 +1,83 @@
+﻿@model CasusVictuz.VieuwModels.DetailsEventViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <h4>Event details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Start evenement
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Date)
+        </dd>
+        <dt class="col-sm-2">
+            Naam evenement
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Beschrijving
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Aantal plaatsen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Spots)
+        </dd>
+        <dt class="col-sm-2">
+            Locatie
+        </dt>
+        @{
+            var location = Model.Event?.Location?.Name;
+            if (location == null)
+            {
+                location = "Onbekend";
+            }
+        }
+        <dd class="col-sm-10">
+            @location
+        </dd>
+        <dt class="col-sm-2">
+            Goedgekeurd
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.IsAccepted)
+        </dd>
+        <dt class="col-sm-2">
+            Catagorie
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Category.Title)
+        </dd>
+        <dt class="col-sm-2">
+            Organisator
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.FirstOrganizer)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Geregistreerde gebruikers</h4>
+    <ul>
+        @foreach (var user in Model.RegisteredUsers)
+        {
+            <li>@user.Name</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Event.Id">Aanpassen</a> |
+    <a asp-action="IndexAdmin">Terug</a>
+</div>

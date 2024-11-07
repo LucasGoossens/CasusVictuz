@@ -1,0 +1,176 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* Light background for a clean look */
+    color: #333;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #2B6C77; /* Using the color provided for consistency */
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  font-size: 1.2rem; /* Increase font size */
+  font-weight: bold;
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+    color: #FFD700; /* Gold accent for hover effect */
+}
+
+.navbar-brand img {
+    height: 200px;
+    width: auto;
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    color: #333;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: #FFD700; /* Gold hover for dropdown */
+    color: #fff;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #2B6C77;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #23868E; /* Slightly darker shade for hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* General styling for links */
+a {
+    color: #2B6C77;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #23868E;
+}
+
+/* Additional styling */
+.container-fluid {
+    padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: #2B6C77;
+}
+
+/* Subtle animations for interactivity */
+.nav-item {
+    position: relative;
+}
+
+.nav-item:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #FFD700;
+    bottom: -5px;
+    left: 50%;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover:after {
+    width: 100%;
+    left: 0;
+}
+/* Tags */
+/* Hide the checkbox */
+#check01 {
+    display: none;
+}
+
+/* Style the label container */
+.label-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Arrow style */
+.arrow {
+    border: solid #333;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    margin-left: 5px;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+}
+
+/* Rotate arrow when checkbox is checked */
+#check01:checked + .label-container .arrow {
+    transform: rotate(-135deg);
+}
+
+/* Hide submenu by default */
+.submenu {
+    display: none;
+}
+
+/* Show submenu when checkbox is checked */
+#check01:checked ~ .submenu {
+    display: block;
+}
+
+/* Styling for submenu items to look like tags */
+.submenu li {
+    display: inline-block;
+    border-radius: 10px; /* Smaller border radius */
+    padding: 5px 10px; /* Smaller padding */
+    background-color: #2B6C77; /* Match button background color */
+    color: #fff; /* Match button text color */
+    font-weight: 600;
+    margin: .25em .1em;
+    cursor: pointer; /* Indicate clickability */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .submenu li a {
+        font-size: 1em; /* Smaller font size */
+        border-radius: 4px;
+        color: #fff; /* Ensure link text color matches button text color */
+        text-decoration: none;
+    }
+
+    .submenu li:hover {
+        background-color: #23868E; /* Match button hover background color */
+        color: #fff; /* Ensure text color remains white on hover */
+    }
+
+

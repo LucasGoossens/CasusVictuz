@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Casusvictuz.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categorie</h1>
+
+<p>
+    <a asp-action="Create">Maak aan</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Titel
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

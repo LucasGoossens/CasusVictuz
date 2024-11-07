@@ -1,0 +1,275 @@
+@using CasusVictuz.VieuwModels
+
+@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="homepage">
+    <!-- Highlighted Event Banner -->
+    <section class="highlighted-event">
+        @if (Model.NextEvent != null)
+        {
+            <div class="event-banner">
+                <img src="@(!string.IsNullOrEmpty(Model.NextEvent.UrlLinkPicture) ? Model.NextEvent.UrlLinkPicture : "https://t4.ftcdn.net/jpg/08/52/93/57/360_F_852935791_pMCeBDdFRTw9VjZbvf1aU1a5tjWtSz8b.jpg")" alt="Highlighted Event">
+                <div class="event-overlay">
+                    <h2>@Model.NextEvent.Name</h2>
+                    <p>@Model.NextEvent.Description</p>
+                    <p><strong>Datum:</strong> @Model.NextEvent.Date?.ToString("dd-MM-yyyy HH:mm")</p>
+                    <a asp-controller="Events" asp-action="DetailsUser" asp-route-id="@Model.NextEvent.Id" class="button">Doe mee met dit evenement!</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="no-event">Er is momenteel geen evenement gepland helaas :(</p>
+        }
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="upcoming-events">
+        <h3>Aankomende Evenementen</h3>
+        <p>Blijf op de hoogte van spannende evenementen en mis geen enkel hoogtepunt!</p>
+        @if (Model.Events != null && Model.Events.Any())
+        {
+            <ul class="events-list">
+                @foreach (var eventItem in Model.Events)
+                {
+                    <li class="event-item">
+                        <img class="event-item-img"src="@(!string.IsNullOrEmpty(eventItem.UrlLinkPicture) ? eventItem.UrlLinkPicture : "https://t4.ftcdn.net/jpg/08/52/93/57/360_F_852935791_pMCeBDdFRTw9VjZbvf1aU1a5tjWtSz8b.jpg")" alt="Upcoming Events">
+                        <h4>@eventItem.Name</h4>
+                        <p>@eventItem.Description</p>
+                        <p><strong>Datum:</strong> @eventItem.Date?.ToString("dd-MM-yyyy HH:mm")</p>
+                        <a asp-controller="Events" asp-action="DetailsUser" asp-route-id="@eventItem.Id" class="button">Bekijk Details</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Er staan geen verdere evenementen op de planning.</p>
+        }
+    </section>
+
+    <!-- Forum Section -->
+    <section class="forum-info">
+        <h3>Forum</h3>
+        <p>💬 Doe mee aan interessante discussies en deel je ideeën met onze community!</p>
+        <a asp-controller="Posts" asp-action="Index" class="button">Ga naar het forum</a>
+    </section>
+
+    <!-- Become a Member Section -->
+    <section class="become-member">
+        <h3>Word Lid</h3>
+        <ul class="member-benefits">
+            <li>🌟 Exclusieve toegang – Bekijk en schrijf je in voor evenementen speciaal samengesteld voor onze leden.</li>
+            <li>🎟 Voorrang bij inschrijving – Zorg ervoor dat je een plekje hebt voor onze populaire evenementen.</li>
+            <li>📅 Makkelijk beheer – Hou je inschrijvingen en favoriete evenementen overzichtelijk op één plek.</li>
+            <li>💬 Doe suggesties – Deel je ideeën en suggesties om de evenementen te verbeteren.</li>
+        </ul>
+        <a asp-controller="Home" asp-action="Member" class="button">Word lid van Victuz</a>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="sponsors">
+        <h3>Onze Sponsoren</h3>
+        <p>Dankzij de steun van onze sponsoren kunnen we fantastische evenementen organiseren.</p>
+        <div class="sponsor-logos">
+            <img src="https://www.shb-online.nl/wp-content/uploads/2019/11/Zuyd-Hogeschool-1.png" alt="Sponsor 1">
+            <img src="https://topofminds.com/wp-content/uploads/2016/01/logo_jumbo.png" alt="Sponsor 2">
+            <img src="https://welovesnow.nl/wp-content/uploads/2020/12/Logo-SnowWorld-1024x1000-1.png" alt="Sponsor 3">
+            <img src="https://th.bing.com/th/id/OIP.G79RrtuQRn6a1x27OzMv2wHaDv?rs=1&pid=ImgDetMain" alt="Sponsor 4">
+        </div>
+    </section>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    /* General page styling */
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .homepage {
+        width: 100%;
+        display:flex;
+        flex-direction:column;
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    /* Highlighted Event Section */
+    .highlighted-event .event-banner {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-bottom: 40px;
+    }
+
+    .event-banner img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .event-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.55);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    /* Upcoming Events Section */
+    .upcoming-events {
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 40px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .upcoming-events h3 {
+        font-size: 1.8em;
+        color: #0a3d62;
+    }
+
+    .events-list {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content:space-evenly;
+    }
+
+    .event-item {
+        width: 30%;
+        height: 90%;
+        margin: 15px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        justify-items:center;
+    }
+
+    .event-item-img{
+        border-radius: 10px;
+        width:100%;
+        height: 90%;
+    }
+    /* Forum and Membership Sections */
+    .forum-info, .become-member {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .forum-info:hover, .become-member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .forum-info h3, .become-member h3, .sponsors h3 {
+        font-size: 1.8em;
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    .member-benefits {
+        list-style: none;
+        padding: 0;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: left;
+        font-size: 1.1em;
+        color: #666;
+    }
+
+    .member-benefits li {
+        margin: 10px 0;
+    }
+
+    /* Sponsors Section */
+    .sponsors {
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .sponsor-logos {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .sponsor-logos img {
+        max-width: 150px;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .sponsor-logos img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Button Styling */
+    .button {
+        display: inline-block;
+        padding: 12px 25px;
+        font-size: 1.1em;
+        font-weight: bold;
+        background-color: #FFD700; /* Gold color */
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #333;
+        color: #FFD700;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .event-item {
+            margin: 10px 0;
+        }
+
+        .forum-info h3, .become-member h3, .sponsors h3 {
+            font-size: 1.6em;
+        }
+
+        .member-benefits {
+            font-size: 1em;
+        }
+
+        .button {
+            font-size: 1em;
+            padding: 10px 20px;
+        }
+    }
+</style>

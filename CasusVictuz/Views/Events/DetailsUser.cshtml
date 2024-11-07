@@ -1,0 +1,202 @@
+@using CasusVictuz.Models
+@using System.Security.Claims
+@model Casusvictuz.Event
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="event-details-container">
+    <h1>@Model.Name</h1>
+
+    <div class="event-header">
+        <div class="event-image">
+            <img src="@Model.UrlLinkPicture" alt="Event Image" />
+        </div>
+        <div class="event-info">
+            <p><strong>Datum:</strong> @(Model.Date.HasValue ? Model.Date.Value.ToString("dd-MM-yyyy") : "N/A")</p>
+            <p><strong>Tijd:</strong> @(Model.Date.HasValue ? Model.Date.Value.ToString("HH:mm") : "N/A")</p>
+            @{
+                var location = Model.Location?.Name;
+                if (location == null)
+                {
+                    location = "Onbekend";
+                }
+            }
+            <p><strong>Locatie:</strong> @location</p>
+            <p><strong>Categorie:</strong> @Html.DisplayFor(model => model.Category.Title)</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="event-details">
+        <h3>Beschrijving</h3>
+        <p>@Html.DisplayFor(model => model.Description)</p>
+
+        <h3>Aantal plekken</h3>
+        @{
+            var beschikbarePlekken = Model.Spots - Model.Registrations.Count();
+        }
+        <p><strong>Beschikbaar:</strong> @beschikbarePlekken</p>
+        <p><strong>Totaal:</strong> @Html.DisplayFor(model => model.Spots)</p>
+
+        <h3>Organisator</h3>
+        @{
+            var firstOrganizerRegistration = Model.Registrations.FirstOrDefault(r => r.IsOrganised);
+            var firstOrganizer = firstOrganizerRegistration?.User?.Name;
+        }
+        <p>@(string.IsNullOrEmpty(firstOrganizer) ? "Onbekend" : firstOrganizer)</p>
+    </div>
+
+    <div class="registration-section">
+        @{
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == null)
+            {
+                <p class="login-warning">Log in om je in te schrijven voor dit evenement</p>
+            }
+            else
+            {
+                int loggedInUserId = int.Parse(currentUserId);
+                bool userIsAlreadyRegistered = Model.Registrations.Any(r => r.UserId == loggedInUserId);
+                bool isMember = User.HasClaim("IsMember", "True");
+
+                if (userIsAlreadyRegistered)
+                {
+                    <p class="registered-message">Je bent ingeschreven voor dit evenement 🎉</p>
+                }
+                else if (Model.Spots <= Model.Registrations.Count())
+                {
+                    <p class="full-message">Sorry, dit evenement is volgeboekt 😢</p>
+                }
+                else
+                {
+                    if (!isMember && (Model.Date.Value - DateTime.Now).TotalDays > 7)
+                    {
+                        <p class="guest-warning">U kunt zich als gast nog niet aanmelden voor dit evenement.</p>
+                    }
+                    else
+                    {
+                        <form asp-action="Register" asp-controller="Events" method="post" class="registration-form">
+                            <input type="hidden" name="eventId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-primary">Inschrijven</button>
+                        </form>
+                    }
+                }
+            }
+        }
+    </div>
+
+    <a asp-action="IndexUser" class="btn btn-secondary back-button">Terug</a>
+</div>
+
+<!-- Inline CSS -->
+<style>
+    .event-details-container {
+        width: 90%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .event-details-container h1 {
+        text-align: center;
+        font-size: 2.5em;
+        color: #0a3d62;
+        margin-bottom: 20px;
+    }
+
+    .event-header {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .event-image img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .event-info {
+        font-size: 1.1em;
+        color: #333;
+    }
+
+    .event-info p {
+        margin: 5px 0;
+    }
+
+    .event-details {
+        margin-top: 20px;
+    }
+
+    .event-details h3 {
+        font-size: 1.5em;
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    .event-details p {
+        font-size: 1.1em;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .registration-section {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-warning,
+    .registered-message,
+    .full-message,
+    .guest-warning {
+        font-size: 1.2em;
+        color: #d9534f;
+        font-weight: bold;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .registration-form button {
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: 10px 20px;
+        background-color: #5cb85c;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .registration-form button:hover {
+        background-color: #4cae4c;
+    }
+
+    .back-button {
+        display: block;
+        width: fit-content;
+        margin: 20px auto 0;
+        padding: 10px 20px;
+        background-color: #f0ad4e;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+        background-color: #ec971f;
+    }
+</style>

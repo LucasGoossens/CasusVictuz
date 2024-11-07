@@ -1,0 +1,262 @@
+@model Casusvictuz.User
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap CSS and JavaScript (includes popper.js for modals) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="user-details-container">
+    <h1>Gebruikers informatie</h1>
+
+    <div class="user-info">
+        <dl class="row">
+            <dt class="col-sm-3">Naam</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            @* <dt class="col-sm-3">Emailadres</dt>
+            <dd class="col-sm-9">@Model.Email</dd>  *@
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">
+                @{
+                    if (Model.IsAdmin)
+                    {
+                        <span class="status-badge admin">Administrator</span>
+                    }
+                    else if (Model.IsMember)
+                    {
+                        <span class="status-badge member">Lid</span>
+                    }
+                    else
+                    {
+                        <span class="status-badge guest">Gast</span>
+                    }
+                }
+            </dd>
+
+            <dt class="col-sm-3">Aantal Posts</dt>
+            <dd class="col-sm-9">
+                @{
+                    int postCount = Model.Posts?.Count() ?? 0;
+                    string postRank = GetPostRank(postCount);
+                    int postsToNextRank = GetPostsToNextRank(postCount);
+                }
+                @postCount <span class="rank-badge">@postRank</span>
+                @if (postsToNextRank > 0)
+                {
+                    <span class="next-rank">- Nog @postsToNextRank posts voor de volgende rang</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">Aantal Registraties</dt>
+            <dd class="col-sm-9">
+                @{
+                    int registrationCount = Model.Registrations?.Count() ?? 0;
+                    string registrationRank = GetRegistrationRank(registrationCount);
+                    int registrationsToNextRank = GetRegistrationsToNextRank(registrationCount);
+                }
+                @registrationCount <span class="rank-badge">@registrationRank</span>
+                @if (registrationsToNextRank > 0)
+                {
+                    <span class="next-rank">- Nog @registrationsToNextRank registraties voor de volgende rang</span>
+                }
+            </dd>
+        </dl>
+    </div>
+
+    @if ((bool)Model.IsGuest)
+    {
+        <div class="border p-2 d-flex flex-column card card-body text-center">
+            <h6>U heeft op dit moment een gast account, meld U hier aan om lid te worden</h6>
+            <a class="btn btn-primary align-self-center" data-toggle="modal" data-target="#registerModal">Word lid</a>
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Word lid</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>@Model.Name</h6>
+                <form asp-action="CreateMemberAccountFromGuestAcc" asp-controller="Users" method="post" id="registerForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        <div id="passwordError" class="text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                        <div id="confirmPasswordError" class="text-danger"></div>
+                    </div>                    
+                    <input type="hidden" id="loggedInUserId" name="loggedInUserId" value="@Model.Id" />
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="return validateAndSubmitForm()">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateAndSubmitForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var passwordError = document.getElementById("passwordError");
+        var confirmPasswordError = document.getElementById("confirmPasswordError");
+
+        passwordError.innerHTML = "";
+        confirmPasswordError.innerHTML = "";
+
+        if (password !== confirmPassword) {
+            confirmPasswordError.innerHTML = "Wachtwoorden komen niet overeen.";
+            return false; 
+        }
+
+        document.getElementById("registerForm").submit(); 
+        return true;
+    }
+
+</script>
+
+
+
+<!-- Inline CSS for styling -->
+<style>
+    .user-details-container {
+        width: 90%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 25px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+        .user-details-container h1 {
+            text-align: center;
+            font-size: 2.4em;
+            color: #0a3d62;
+            margin-bottom: 20px;
+        }
+
+    .user-info {
+        font-size: 1.1em;
+        color: #333;
+    }
+
+        .user-info dt {
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .user-info dd {
+            margin-left: 0;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+        .status-badge.admin {
+            background-color: #d9534f; /* Red for Administrator */
+        }
+
+        .status-badge.member {
+            background-color: #5cb85c; /* Green for Member */
+        }
+
+        .status-badge.guest {
+            background-color: #f0ad4e; /* Orange for Guest */
+        }
+
+    .rank-badge {
+        padding: 3px 8px;
+        margin-left: 10px;
+        font-weight: bold;
+        border-radius: 5px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff; /* Blue for ranks */
+    }
+
+    .next-rank {
+        margin-left: 10px;
+        color: #888;
+        font-size: 0.9em;
+        font-style: italic;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .user-details-container h1 {
+            font-size: 1.8em;
+        }
+    }
+</style>
+
+@functions {
+    // Function to get post rank based on post count
+    private string GetPostRank(int postCount)
+    {
+        if (postCount >= 51) return "Master";
+        if (postCount >= 26) return "Expert";
+        if (postCount >= 11) return "Contributor";
+        return "Beginner";
+    }
+
+    // Function to get registration rank based on registration count
+    private string GetRegistrationRank(int registrationCount)
+    {
+        if (registrationCount >= 31) return "Super Lid";
+        if (registrationCount >= 16) return "Vaste Bezoeker";
+        if (registrationCount >= 6) return "Actief Lid";
+        return "Nieuw Lid";
+    }
+
+    // Function to get posts needed for the next rank
+    private int GetPostsToNextRank(int postCount)
+    {
+        if (postCount >= 51) return 0;
+        if (postCount >= 26) return 51 - postCount;
+        if (postCount >= 11) return 26 - postCount;
+        return 11 - postCount;
+    }
+
+    // Function to get registrations needed for the next rank
+    private int GetRegistrationsToNextRank(int registrationCount)
+    {
+        if (registrationCount >= 31) return 0;
+        if (registrationCount >= 16) return 31 - registrationCount;
+        if (registrationCount >= 6) return 16 - registrationCount;
+        return 6 - registrationCount;
+    }
+}

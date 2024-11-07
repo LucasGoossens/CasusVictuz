@@ -1,0 +1,62 @@
+@model Casusvictuz.Comment
+
+<li class="list-group-item pt-1 my-1 border-0">
+    <!-- Comment Content -->
+    <div class="d-flex align-items-center mb-2">
+        <strong class="me-2">@Model.User.Name</strong>
+        <small class="text-muted">@Model.Date.ToString("dd-MM-yyyy HH:mm")</small>
+    </div>
+    <div class="mb-2">@Model.Content</div>
+
+    <!-- Reply Button and Form Toggle -->
+    <button type="button" onclick="toggleReplyForm(@Model.Id)" class="btn btn-sm btn-link text-primary">
+        Beantwoorden
+    </button>
+    
+    <div id="replyForm-@Model.Id" class="mt-2" style="display:none;">
+        <form asp-action="CreateReply" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+            <div class="form-group mb-2">
+                <textarea name="Content" class="form-control" rows="2" placeholder="Schrijf uw reactie..."></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" name="ThreadId" value="@Model.ThreadId" />
+            <input type="hidden" name="ParentCommentId" value="@Model.Id" />
+            <button type="submit" class="btn btn-sm btn-primary">Plaats Reactie</button>
+        </form>
+    </div>
+
+    <!-- Show Replies Button -->
+    @if (Model.Replies != null && Model.Replies.Any())
+    {
+        <button type="button" class="btn btn-sm btn-link text-primary mt-2" onclick="toggleReplies(@Model.Id)">
+            Toon (@Model.Replies.Count()) reacties
+        </button>
+
+        <!-- Collapsible Nested Replies -->
+        <ul id="replies-@Model.Id" class="list-group list-group-flush ms-4 mt-3 border-start border-3 ps-3" style="display: none;">
+            @foreach (var reply in Model.Replies)
+            {
+                @Html.Partial("_CommentTree", reply)
+            }
+        </ul>
+    }
+</li>
+
+<script>
+    function toggleReplyForm(commentId) {
+        const form = document.getElementById(`replyForm-${commentId}`);
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleReplies(commentId) {
+        const replies = document.getElementById(`replies-${commentId}`);
+        if (replies.style.display === "none") {
+            replies.style.display = "block";
+        } else {
+            replies.style.display = "none";
+        }
+    }
+</script>

@@ -1,0 +1,13 @@
+﻿@model Casusvictuz.Registration
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<h3>Weet je zeker dat je je wilt uitschrijven voor het evenement '@Model.Event.Name'?</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Uitschrijven" class="btn btn-danger" />  
+        <a asp-action="Index" class="btn btn-primary">Terug</a>
+    </form>
+</div>

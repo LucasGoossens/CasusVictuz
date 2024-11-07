@@ -1,0 +1,173 @@
+﻿/* _content/CasusVictuz/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.container {
+    width:100%;
+    flex: 1;
+    
+}
+
+a.navbar-brand[b-qt9b62312u] {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a[b-qt9b62312u] {
+    color: #0077cc;
+}
+
+.btn-primary[b-qt9b62312u] {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-qt9b62312u], .nav-pills .show > .nav-link[b-qt9b62312u] {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top[b-qt9b62312u] {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom[b-qt9b62312u] {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-qt9b62312u] {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-qt9b62312u] {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    padding-top: 20px;
+    bottom: 0;
+    width: 100%;
+    line-height: 18px;
+    white-space: nowrap;
+    background-color: #2B6C77;
+    color: white;
+}
+
+
+.sponsors {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sponsor-logos {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sponsor-logos img {
+width: 150px;
+height: 100px;
+object-fit: contain;
+}
+
+
+
+.IndexPicture {
+    width: 270px; 
+    height: 150px; 
+}
+
+.next-event {
+    width: 50%;
+    font-size: 1.8em;
+    text-align: center;
+    color: #2B6C77;    
+    margin-bottom: 15px;
+}
+
+
+.homepage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    flex:1;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+ 
+.event-content {    
+    background-color: lightblue;
+    
+}
+
+.event.items {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    /*max-width: 600px;*/
+    border-radius: 8px;
+    text-align: left;
+    margin: 0 auto;
+    gap: 15px;
+}
+
+.event-img {
+    width: 90%;
+    height: 300px;
+    border-radius: 8px;
+}
+
+.next-event h3 {
+    color: black;
+}
+
+.agenda {
+    width:50%;
+    padding: 20px;
+    text-align: center;
+}
+
+.agenda-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.agenda-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    width: 90%;    
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: lightcyan;
+}
+
+.agenda-img {
+    width: 30%;
+    height: 40%;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.agenda-details {
+    text-align: left;
+}

@@ -1,0 +1,49 @@
+﻿@model Casusvictuz.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h3>Weer je zeker dat je deze gebruiker wilt verwijderen?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Naam
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            E-mail
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            Wachtwoord
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt class = "col-sm-2">
+            Is admin?
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsAdmin)
+        </dd>
+        <dt class = "col-sm-2">
+            Is lid?
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsMember)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="verwijder" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug</a>
+    </form>
+</div>
