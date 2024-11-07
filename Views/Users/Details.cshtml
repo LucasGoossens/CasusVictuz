@@ -12,7 +12,7 @@
         <dt class="col-sm-2">Naam</dt>
         <dd class="col-sm-10">@Model.Name</dd> 
 
-        <dt class="col-sm-2">Status</dt>
+        <dt class="col-sm-2">Account Status</dt>
         <dd class="col-sm-10">
             @{
                 if (Model.IsAdmin)
@@ -23,7 +23,7 @@
                 {
                     <span>Lid</span>
                 }
-                else
+                else if((bool)Model.IsGuest)
                 {
                     <span>Gast</span>
                 }
