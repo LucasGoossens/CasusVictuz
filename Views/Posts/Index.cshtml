@@ -20,7 +20,6 @@
         </p>
         @{
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            int customerId;
             if (userId == null || User.HasClaim("IsGuest", "True"))
             {
                 <h5>Word lid om deel te nemen aan de discussie.</h5>
@@ -56,10 +55,16 @@
                     <!-- Action Buttons in Card Footer -->
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm">Lees Volledig Bericht</a>
-                        <div>
-                            <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-secondary btn-sm me-2">Bewerken</a>
-                            <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">Verwijderen</a>
-                        </div>
+
+                        @{
+                            if ((userId != null && int.Parse(userId) == post.UserId) || User.HasClaim("IsAdmin", "True"))
+                            {
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-secondary btn-sm me-2">Bewerken</a>
+                                    <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">Verwijderen</a>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             </div>
