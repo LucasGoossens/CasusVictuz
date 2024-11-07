@@ -38,8 +38,8 @@ namespace CasusVictuz.Controllers
                 return View(model);
             }
 
-
-            var user = _context.Users.FirstOrDefault(c => c.Name == model.Name && c.Password == model.Password);
+            var EmailLogin = model.Name;
+            var user = _context.Users.FirstOrDefault(c => (c.Name == model.Name || c.Email == model.Name) && c.Password == model.Password);
 
             if (user != null)
             {
@@ -107,6 +107,18 @@ namespace CasusVictuz.Controllers
             // If all checks pass, add the new user
             if (ModelState.IsValid)
             {
+                if (!user.Email.Contains('@'))
+                {
+                    ModelState.AddModelError("Email", "Email is niet valide");
+                    return View(user);
+                }
+
+                if (EmailExists(user.Email))
+                {
+                    ModelState.AddModelError("Email", "Email is al in gebruik");
+                    return View(user);
+                }
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Account aangemaakt! Log in om je account te verifiëren.";
@@ -147,7 +159,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Password,IsAdmin,IsMember")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,IsAdmin,IsMember")] User user)
         {
             if (id != user.Id)
             {
@@ -180,6 +192,11 @@ namespace CasusVictuz.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        private bool EmailExists(string email)
+        {
+            return _context.Users.Any(e => e.Email == email);
         }
 
 
