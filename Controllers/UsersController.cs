@@ -125,6 +125,41 @@ namespace CasusVictuz.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateMemberAccountFromGuestAcc(int loggedInUserId, string email, string password)
+        {            
+            var guestAcc = await _context.Users.FirstOrDefaultAsync(u => u.Id == loggedInUserId);
+         
+            if (guestAcc != null)
+            {
+                guestAcc.Email = email;
+                guestAcc.Password = password;
+                guestAcc.IsMember = true;
+                guestAcc.IsGuest = false;
+
+                await _context.SaveChangesAsync();
+
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, guestAcc.Name),
+            new Claim(ClaimTypes.NameIdentifier, guestAcc.Id.ToString()),
+            new Claim("IsMember", guestAcc.IsMember ? "True" : "False"),
+            new Claim("IsGuest", (bool)guestAcc.IsGuest ? "True" : "False"),
+            new Claim("IsAdmin", guestAcc.IsAdmin ? "True" : "False")
+        };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Claims worden opgeslagen met cookies
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+
+                return RedirectToAction("Details", "Users", new { id = guestAcc.Id });
+            }
+            
+            return NotFound();
+        }
+
 
         // GET: Users/Logout
         public async Task<IActionResult> Logout()
@@ -208,8 +243,8 @@ namespace CasusVictuz.Controllers
             }
 
             var user = await _context.Users
-                .Include(u => u.Registrations) 
-                .Include(u => u.Posts)         
+                .Include(u => u.Registrations)
+                .Include(u => u.Posts)
                 .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
