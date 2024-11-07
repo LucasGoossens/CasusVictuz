@@ -74,16 +74,51 @@ namespace CasusVictuz.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Password")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Password")] User user, string confirmPassword)
         {
+            // Check if the name or password exceeds 20 characters
+            if (user.Name.Length > 20)
+            {
+                TempData["ErrorMessage"] = "De gebruikersnaam mag niet langer zijn dan 20 tekens.";
+                return View(user);
+            }
+
+            if (user.Password.Length > 20)
+            {
+                TempData["ErrorMessage"] = "Het wachtwoord mag niet langer zijn dan 20 tekens.";
+                return View(user);
+            }
+
+            // Check if the passwords match
+            if (user.Password != confirmPassword)
+            {
+                TempData["ErrorMessage"] = "Wachtwoorden komen niet overeen.";
+                return View(user);
+            }
+
+            // Check if the username already exists in the database
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Name == user.Name);
+            if (existingUser != null)
+            {
+                TempData["ErrorMessage"] = "De gebruikersnaam is al in gebruik. Kies een andere naam.";
+                return View(user);
+            }
+
+            // If all checks pass, add the new user
             if (ModelState.IsValid)
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Account aangemaakt! Log in om je account te verifiëren.";
                 return RedirectToAction(nameof(Login));
             }
+
+            // Fallback in case of other validation errors
+            TempData["ErrorMessage"] = "Er is iets fout gegaan. Controleer je invoer en probeer het opnieuw.";
             return View(user);
         }
+
+
         // GET: Users/Logout
         public async Task<IActionResult> Logout()
         {
