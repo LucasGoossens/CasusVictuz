@@ -36,8 +36,15 @@
         <dt class="col-sm-2">
             Locatie
         </dt>
+        @{
+            var location = Model.Event?.Location?.Name;
+            if (location == null)
+            {
+                location = "Onbekend";
+            }
+        }
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Event.Location)
+            @location
         </dd>
         <dt class="col-sm-2">
             Goedgekeurd

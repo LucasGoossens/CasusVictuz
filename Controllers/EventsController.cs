@@ -222,7 +222,7 @@ namespace CasusVictuz.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,LocationId,CategoryId, UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
