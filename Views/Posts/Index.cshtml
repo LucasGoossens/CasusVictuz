@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model IEnumerable<Casusvictuz.Post>
 
 @{
@@ -17,7 +18,19 @@
             Sluit je aan bij de conversatie, deel jouw kennis, en ontdek nieuwe perspectieven. Aarzel niet om een nieuw onderwerp te starten of te reageren op bestaande threads.
             Samen kunnen we waardevolle kennis en ervaringen uitwisselen die iedereen vooruit helpen!
         </p>
-        <a asp-action="CreateThread" class="btn btn-primary btn-lg mt-3">Start een Nieuw Onderwerp en Doe Mee!</a>
+        @{
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int customerId;
+            if (userId == null)
+            {
+                <h5>Word lid om deel te nemen aan de discussie.</h5>
+                <a href="home/member" class="btn btn-primary btn-lg mt-3">Word Lid</a>
+            }
+            else
+            {
+                <a asp-action="CreateThread" class="btn btn-primary btn-lg mt-3">Start een Nieuw Onderwerp en Doe Mee!</a>
+            }
+        }
     </div>
 
     <!-- Forum Threads Section -->
@@ -30,7 +43,7 @@
                         <!-- Post Category and Details -->
                         <h5 class="card-title text-primary">@post.Category.Title</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Door <strong>@post.User.Name</strong> op @post.Date.ToString("dd-MM-yyyy")</h6>
-                        
+
                         <!-- Post Content Preview -->
                         <p class="card-text mt-3">
                             @{
@@ -39,7 +52,7 @@
                             @contentPreview
                         </p>
                     </div>
-                    
+
                     <!-- Action Buttons in Card Footer -->
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm">Lees Volledig Bericht</a>

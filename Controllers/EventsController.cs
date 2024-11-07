@@ -407,6 +407,7 @@ namespace CasusVictuz.Controllers
             {
                 Name = GuestName,
                 Password = "GUEST",
+                Email = "GUEST@GUEST.NL",
                 IsMember = false,
                 IsGuest = true
             };
