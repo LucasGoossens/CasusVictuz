@@ -21,7 +21,7 @@
         @{
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             int customerId;
-            if (userId == null)
+            if (userId == null || User.HasClaim("IsGuest", "True"))
             {
                 <h5>Word lid om deel te nemen aan de discussie.</h5>
                 <a href="home/member" class="btn btn-primary btn-lg mt-3">Word Lid</a>
