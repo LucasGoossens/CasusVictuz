@@ -26,7 +26,11 @@ namespace CasusVictuz.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            // Seed the "Suggestie" category
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 420, Title = "Suggestie" }
+            );
+
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)
                 .WithMany(c => c.Replies)
