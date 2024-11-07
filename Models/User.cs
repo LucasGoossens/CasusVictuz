@@ -4,10 +4,11 @@ namespace Casusvictuz
     public class User
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Naam is verplicht")]
         public required string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email is verplicht")]
         public string? Email { get; set; }
+        [Required(ErrorMessage = "Wachtwoord is verplicht")]
         public required string Password { get; set; } 
         public bool IsAdmin { get; set; }
         public bool IsMember { get; set; }
