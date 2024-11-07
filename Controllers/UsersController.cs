@@ -127,12 +127,9 @@ namespace CasusVictuz.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateMemberAccountFromGuestAcc(int loggedInUserId, string email, string password)
-        {
-            System.Diagnostics.Debug.WriteLine(loggedInUserId);
-            System.Diagnostics.Debug.WriteLine(email);
-            System.Diagnostics.Debug.WriteLine(password);
+        {            
             var guestAcc = await _context.Users.FirstOrDefaultAsync(u => u.Id == loggedInUserId);
-            System.Diagnostics.Debug.WriteLine(guestAcc.Id);
+         
             if (guestAcc != null)
             {
                 guestAcc.Email = email;
@@ -159,7 +156,7 @@ namespace CasusVictuz.Controllers
 
                 return RedirectToAction("Details", "Users", new { id = guestAcc.Id });
             }
-            System.Diagnostics.Debug.WriteLine("tes.t");
+            
             return NotFound();
         }
 
