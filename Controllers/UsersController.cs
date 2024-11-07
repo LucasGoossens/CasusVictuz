@@ -38,8 +38,8 @@ namespace CasusVictuz.Controllers
                 return View(model);
             }
 
-
-            var user = _context.Users.FirstOrDefault(c => c.Name == model.Name && c.Password == model.Password);
+            var EmailLogin = model.Name;
+            var user = _context.Users.FirstOrDefault(c => (c.Name == model.Name || c.Email == model.Name) && c.Password == model.Password);
 
             if (user != null)
             {
@@ -115,7 +115,7 @@ namespace CasusVictuz.Controllers
 
                 if (EmailExists(user.Email))
                 {
-                    ModelState.AddModelError("Email", "Email bestaat al in Db");
+                    ModelState.AddModelError("Email", "Email is al in gebruik");
                     return View(user);
                 }
 
