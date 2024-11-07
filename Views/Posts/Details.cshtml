@@ -94,6 +94,12 @@ else
 
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Pas aan</a> |
+
+
+    @if (userId != null && int.Parse(userId) == Model.UserId)
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Pas aan</a>
+    }
+   
     <a asp-action="Index">Terug</a>
 </div>
