@@ -215,6 +215,7 @@ namespace CasusVictuz.Controllers
         {
             if (ModelState.IsValid)
             {
+                @event.CategoryId = 420;
                 @event.IsAccepted = false;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
