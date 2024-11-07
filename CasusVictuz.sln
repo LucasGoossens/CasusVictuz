@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasusVictuz", "CasusVictuz\CasusVictuz.csproj", "{C4791980-9649-4BDE-80AC-782CE9F6C4D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasusVictuz_Api", "CasusVictuz_Api\CasusVictuz_Api.csproj", "{1A09BDBB-4209-4B30-93E8-2D9ABFCE7559}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4791980-9649-4BDE-80AC-782CE9F6C4D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4791980-9649-4BDE-80AC-782CE9F6C4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4791980-9649-4BDE-80AC-782CE9F6C4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4791980-9649-4BDE-80AC-782CE9F6C4D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A09BDBB-4209-4B30-93E8-2D9ABFCE7559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A09BDBB-4209-4B30-93E8-2D9ABFCE7559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A09BDBB-4209-4B30-93E8-2D9ABFCE7559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A09BDBB-4209-4B30-93E8-2D9ABFCE7559}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7EF1E38-23C7-41EA-8365-5F5EEB8AFE5B}
+	EndGlobalSection
+EndGlobal
