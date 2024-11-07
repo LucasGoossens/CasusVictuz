@@ -74,50 +74,45 @@ namespace CasusVictuz.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Password")] User user, string confirmPassword)
+        public async Task<IActionResult> Create([Bind("Id,Name, Email, Password")] User user)
         {
             // Check if the name or password exceeds 20 characters
             if (user.Name.Length > 20)
             {
-                TempData["ErrorMessage"] = "De gebruikersnaam mag niet langer zijn dan 20 tekens.";
+                ModelState.AddModelError("Name", "De naam kan niet langer zijn dan 20 tekens");
                 return View(user);
             }
 
             if (user.Password.Length > 20)
             {
-                TempData["ErrorMessage"] = "Het wachtwoord mag niet langer zijn dan 20 tekens.";
+                ModelState.AddModelError("Password", "Het wachtwoord kan niet langer zijn dan 20 tekens");
                 return View(user);
             }
 
-            // Check if the passwords match
-            if (user.Password != confirmPassword)
-            {
-                TempData["ErrorMessage"] = "Wachtwoorden komen niet overeen.";
-                return View(user);
-            }
 
             // Check if the username already exists in the database
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Name == user.Name);
             if (existingUser != null)
             {
-                TempData["ErrorMessage"] = "De gebruikersnaam is al in gebruik. Kies een andere naam.";
+                ModelState.AddModelError("Name", "Deze gebruikersnaam bestaat al");
                 return View(user);
             }
 
-            // If all checks pass, add the new user
+            if (!user.Email.Contains('@'))
+            {
+                ModelState.AddModelError("Email", "Email is niet valide");
+                return View(user);
+            }
+
+            if (EmailExists(user.Email))
+            {
+                ModelState.AddModelError("Email", "Email is al in gebruik");
+                return View(user);
+            }
+
+
             if (ModelState.IsValid)
             {
-                if (!user.Email.Contains('@'))
-                {
-                    ModelState.AddModelError("Email", "Email is niet valide");
-                    return View(user);
-                }
-
-                if (EmailExists(user.Email))
-                {
-                    ModelState.AddModelError("Email", "Email is al in gebruik");
-                    return View(user);
-                }
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
