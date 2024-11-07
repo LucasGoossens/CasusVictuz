@@ -17,6 +17,10 @@ namespace CasusVictuz.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; } = null!;
 
+        public VictuzDb(DbContextOptions<VictuzDb> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
             //Naam db = VictuzDb
