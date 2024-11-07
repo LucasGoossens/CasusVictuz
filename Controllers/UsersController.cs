@@ -74,10 +74,22 @@ namespace CasusVictuz.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Password")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password")] User user)
         {
             if (ModelState.IsValid)
             {
+                if (!user.Email.Contains('@'))
+                {
+                    ModelState.AddModelError("Email", "Email is niet valide");
+                    return View(user);
+                }
+
+                if (EmailExists(user.Email))
+                {
+                    ModelState.AddModelError("Email", "Email bestaat al in Db");
+                    return View(user);
+                }
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Login));
@@ -112,7 +124,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Password,IsAdmin,IsMember")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,IsAdmin,IsMember")] User user)
         {
             if (id != user.Id)
             {
@@ -145,6 +157,11 @@ namespace CasusVictuz.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        private bool EmailExists(string email)
+        {
+            return _context.Users.Any(e => e.Email == email);
         }
 
 
