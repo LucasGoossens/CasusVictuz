@@ -47,6 +47,8 @@ namespace CasusVictuz.Controllers
             var registration = await _context.Registrations
                 .Include(r => r.Event)
                     .ThenInclude(e => e.Category)
+                .Include(r => r.Event)
+                    .ThenInclude(e => e.Location)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (registration == null)

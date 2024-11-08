@@ -9,10 +9,10 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Evenement
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Event.Name)
         </dd>
         <dt class="col-sm-2">
@@ -36,8 +36,15 @@
         <dt class="col-sm-2">
             Locatie
         </dt>
+        @{
+            var location = Model.Event?.Location?.Name;
+            if (location == null)
+            {
+                location = "Onbekend";
+            }
+        }
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Event.Location)
+            @location
         </dd>
         <dt class="col-sm-2">
             Catagory
@@ -55,7 +62,8 @@
 </div>
 <div>
     <a asp-action="Index" class="btn btn-primary">Terug</a>
-    @{if (Model.IsOrganised)
+    @{
+        if (Model.IsOrganised)
         {
             <p>Als organisator kunt u zich niet uitschrijven voor dit evenement</p>
         }

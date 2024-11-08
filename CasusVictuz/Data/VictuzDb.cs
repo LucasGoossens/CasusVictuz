@@ -18,6 +18,7 @@ namespace CasusVictuz.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Location> Locations { get; set; } = null!;
 
+
         public VictuzDb(DbContextOptions<VictuzDb> options) : base(options)
         {
         }
@@ -81,6 +82,12 @@ namespace CasusVictuz.Data
     .           HasOne<Event>()
                 .WithMany(e => e.Tags)
                 .HasForeignKey(t => t.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Location)
+                .WithMany()
+                .HasForeignKey(e => e.LocationId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
