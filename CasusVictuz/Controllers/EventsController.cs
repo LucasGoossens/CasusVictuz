@@ -31,6 +31,7 @@ namespace CasusVictuz.Controllers
                 .Include(e => e.Tags)
                 .Include(e => e.Category)
                 .Include(e => e.Registrations)
+                .Include(e => e.Location)
                 .Where(e => e.IsAccepted == true)
                 .Where(e => e.Date >= DateTime.Now);
 
@@ -59,6 +60,7 @@ namespace CasusVictuz.Controllers
         public async Task<IActionResult> IndexAdmin()
         {
             var victuzDb = _context.Events.Include(e => e.Category)
+                .Include(e => e.Location)
             .Where(e => e.IsAccepted);
             return View(await victuzDb.ToListAsync());
         }
@@ -66,6 +68,7 @@ namespace CasusVictuz.Controllers
         public async Task<IActionResult> SuggestionIndex()
         {
             var victuzDb = _context.Events.Include(e => e.Category)
+            .Include(e => e.Location)
             .Where(e => !e.IsAccepted);
             return View(await victuzDb.ToListAsync());
         }
@@ -81,6 +84,7 @@ namespace CasusVictuz.Controllers
 
             var @event = await _context.Events
                .Include(e => e.Category)
+               .Include(e => e.Location)
                .Include(e => e.Registrations)
                .ThenInclude(r => r.User)
                .FirstOrDefaultAsync(m => m.Id == id);
@@ -116,6 +120,7 @@ namespace CasusVictuz.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Category)
+                .Include(e => e.Location)
                 .Include(e => e.Registrations)
                 .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -131,6 +136,7 @@ namespace CasusVictuz.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
 
@@ -139,7 +145,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Date,Name,Description,Spots,LocationId,IsAccepted,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -148,19 +154,21 @@ namespace CasusVictuz.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name", @event.LocationId);
             return View(@event);
         }
         // GET: Events/CreateAdmin
         public IActionResult CreateAdmin()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
 
         // POST: Events/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
+        public async Task<IActionResult> CreateAdmin([Bind("Id,Date,Name,Description,Spots,LocationId,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (ModelState.IsValid)
             {
@@ -199,6 +207,7 @@ namespace CasusVictuz.Controllers
                 return RedirectToAction(nameof(IndexAdmin));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name", @event.LocationId);
             return View(@event);
         }
 
@@ -206,12 +215,13 @@ namespace CasusVictuz.Controllers
         public IActionResult CreateSuggestion()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title");
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,Location,CategoryId, UrlLinkPicture")] Event @event)
+        public async Task<IActionResult> CreateSuggestion([Bind("Date,Name,Description,Spots,CategoryId,UrlLinkPicture")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -239,6 +249,7 @@ namespace CasusVictuz.Controllers
                 return RedirectToAction(nameof(IndexUser));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name", @event.LocationId);
             return View(@event);
         }
 
@@ -253,6 +264,7 @@ namespace CasusVictuz.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Tags) // Include the Tags
+                .Include(e => e.Location)
                 .Include(e => e.Category)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
@@ -261,6 +273,7 @@ namespace CasusVictuz.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name", @event.LocationId);
             return View(@event);
         }
 
@@ -269,7 +282,7 @@ namespace CasusVictuz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,Location,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name,Description,Spots,LocationId,IsAccepted,CategoryId,UrlLinkPicture")] Event @event, string[] Tags)
         {
             if (id != @event.Id)
             {
@@ -309,6 +322,7 @@ namespace CasusVictuz.Controllers
                 return RedirectToAction(nameof(IndexUser));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Title", @event.CategoryId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name", @event.LocationId);
             return View(@event);
         }
 
@@ -322,6 +336,7 @@ namespace CasusVictuz.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Category)
+                .Include(e => e.Location)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
