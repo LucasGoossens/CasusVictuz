@@ -16,6 +16,7 @@ namespace CasusVictuz.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Location> Locations { get; set; } = null!;
 
         public VictuzDb(DbContextOptions<VictuzDb> options) : base(options)
         {
