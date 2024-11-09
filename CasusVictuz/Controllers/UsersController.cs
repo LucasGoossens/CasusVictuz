@@ -49,7 +49,8 @@ namespace CasusVictuz.Controllers
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim("IsMember", user.IsMember ? "True" : "False"),
-            new Claim("IsAdmin", user.IsAdmin ? "True" : "False")
+            new Claim("IsAdmin", user.IsAdmin ? "True" : "False"),
+            new Claim("IsGuest", (bool)user.IsGuest ? "True" : "False")
         };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -113,7 +114,8 @@ namespace CasusVictuz.Controllers
 
             if (ModelState.IsValid)
             {
-
+                user.IsGuest = false;
+                user.IsMember = true;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Account aangemaakt! Log in om je account te verifiëren.";
